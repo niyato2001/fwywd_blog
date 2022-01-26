@@ -1,3 +1,3 @@
-export default function Layout(): JSX.Element {
+export default function Layout(props: any): JSX.Element {
   return <></>;
 }
