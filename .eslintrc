@@ -8,6 +8,7 @@
     "plugin:import/warnings"
   ],
   "rules": {
+    "semi": ["error", "always"],
     "import/order": [
       "error",
       {
