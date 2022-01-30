@@ -8,6 +8,12 @@ import PageMain from '../components/PageMain';
 import { getDatabase } from '../lib/notion/get-database';
 import { getPage } from '../lib/notion/get-page';
 
+interface Props {
+  title: string;
+  date: string;
+  tag1: string;
+}
+
 export default function Home({ posts }) {
   return (
     <div>
