@@ -17,14 +17,7 @@ export default function PageMain(): JSX.Element {
           </div>
           <div className='inline-block font-bold text-font-black'>1/26 ページ</div>
         </div>
-        <div className='grid grid-cols-3 grid-rows-2 gap-10 py-16'>
-          <BlogCard title='タイトル1' date='2022/1/1' tag='タグ1' />
-          <BlogCard title='タイトル2' date='2022/1/2' tag='タグ2' />
-          <BlogCard title='タイトル3' date='2022/1/3' tag='タグ3' />
-          <BlogCard title='タイトル4' date='2022/1/4' tag='タグ4' />
-          <BlogCard title='タイトル5' date='2022/1/5' tag='タグ5' />
-          <BlogCard title='タイトル6' date='2022/1/6' tag='タグ6' />
-        </div>
+        <div className='grid grid-cols-3 grid-rows-2 gap-10 py-16'></div>
         <div className='mx-auto flex items-center justify-center gap-1   text-white'>
           <button className='rounded-l-md bg-button-green p-3'>前へ</button>
           <button className='flex justify-between gap-4 bg-button-green py-3 pl-10 pr-4'>
