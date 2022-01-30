@@ -3,7 +3,9 @@ import Link from 'next/link';
 interface Props {
   title: string;
   date: string;
-  tag: string;
+  tag1: string;
+  tag2: string;
+  tag3: string;
 }
 
 export default function BlogCard(props: Props) {
@@ -16,10 +18,7 @@ export default function BlogCard(props: Props) {
           <div className='text-font-black'>{props.title}</div>
           <div className='flex gap-1 text-bg-gray-dark'>
             <div className='rounded-md border-2 border-bg-gray-dark px-3 py-1 text-xs'>
-              {props.tag}
-            </div>
-            <div className='rounded-md border-2 border-bg-gray-dark px-3 py-1 text-xs'>
-              {props.tag}
+              {props.tag1}
             </div>
           </div>
         </div>
