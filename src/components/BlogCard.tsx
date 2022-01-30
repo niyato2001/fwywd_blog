@@ -4,8 +4,6 @@ interface Props {
   title: string;
   date: string;
   tag1: string;
-  tag2: string;
-  tag3: string;
 }
 
 export default function BlogCard(props: Props) {
