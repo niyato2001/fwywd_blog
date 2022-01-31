@@ -10,7 +10,7 @@ interface Props {
 
 export default function BlogCard(props: Props) {
   return (
-    <Link href='/posts/[{props.href}]'>
+    <Link href={`/posts/[${props.href}]`}>
       <a className='flex max-h-96 max-w-md flex-col'>
         <div className='h-44 rounded-t-md bg-bg-gray-dark'></div>
         <div className='flex h-52 flex-col gap-4 rounded-b-md bg-white p-10'>
