@@ -13,6 +13,7 @@ interface Props {
   date: string;
   tag1: string;
   tag2: string;
+  href: string;
 }
 
 export default function Home({ posts }) {
@@ -33,14 +34,15 @@ export default function Home({ posts }) {
             <div className='inline-block font-bold text-font-black'>1/26 ページ</div>
           </div>
           <div className='grid grid-cols-3 grid-rows-2 gap-10 py-16'>
-            {posts.map((post) => {
+            {posts.map((post, i) => {
               return (
                 <BlogCard
-                  key={post.id}
+                  key={i}
                   title={post.properties.title.title[0].plain_text}
                   date={post.properties.date.date.start}
                   tag1={post.properties.tag.multi_select[0].name}
                   tag2={post.properties.tag.multi_select[1].name}
+                  href={post.id}
                 />
               );
             })}
