@@ -4,6 +4,7 @@ interface Props {
   title: string;
   date: string;
   tag1: string;
+  tag2: string;
 }
 
 export default function BlogCard(props: Props) {
@@ -17,6 +18,9 @@ export default function BlogCard(props: Props) {
           <div className='flex gap-1 text-bg-gray-dark'>
             <div className='rounded-md border-2 border-bg-gray-dark px-3 py-1 text-xs'>
               {props.tag1}
+            </div>
+            <div className='rounded-md border-2 border-bg-gray-dark px-3 py-1 text-xs'>
+              {props.tag2}
             </div>
           </div>
         </div>

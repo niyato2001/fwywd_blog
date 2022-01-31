@@ -12,6 +12,7 @@ interface Props {
   title: string;
   date: string;
   tag1: string;
+  tag2: string;
 }
 
 export default function Home({ posts }) {
@@ -39,6 +40,7 @@ export default function Home({ posts }) {
                   title={post.properties.title.title[0].plain_text}
                   date={post.properties.date.date.start}
                   tag1={post.properties.tag.multi_select[0].name}
+                  tag2={post.properties.tag.multi_select[1].name}
                 />
               );
             })}
