@@ -1,30 +1,31 @@
 import { data } from 'autoprefixer';
-import { GetStaticProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import { getDatabase } from '../../lib/notion/get-database';
 import { getPage } from '../../lib/notion/get-page';
 
-export default function Post({posts}) {
-  const router = useRouter();
-  const {post} = router.query;
-  return <h1>このページは{post}のページです。</h1>;
+export default function Post({ title }) {
+  return <h1>このページは{title}のページです。</h1>;
 }
-const databaseId = process.env.NOTION_DATABASE_ID;
-const pageId = process.env.NOTION_PAGE_ID;
-export const getStaticProps: GetStaticProps = async ({params}) => {
-  const page = await getPage(pageId);
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const post = context.params.post;
+  const page = await getPage(post);
+  const props = {
+    title: `title: ${page.properties.title.title[0].plain_text}`,
+  };
   return {
-    props: {
-      posts: page,
-    },
-    revalidate: 30,
+    props,
+    revalidate: 10,
   };
 };
 
-export const getStaticPaths = async () => {
+const databaseId = process.env.NOTION_DATABASE_ID;
+export const getStaticPaths: GetStaticPaths = async () => {
   const database = await getDatabase(databaseId);
   const paths = database.map((post) => ({
-    params: { post: post.id.toString() }}));
+    params: { post: post.id.toString() },
+  }));
   return {
     paths,
     fallback: true,
