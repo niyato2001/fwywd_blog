@@ -1,24 +1,38 @@
 import { data } from 'autoprefixer';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
+import { getBlocks } from '../../lib/notion/get-blocks';
 import { getDatabase } from '../../lib/notion/get-database';
 import { getPage } from '../../lib/notion/get-page';
 
-export default function Post({ title }) {
+export default function Post({ props_page, props_blocks }) {
   //{title}とすることで、props:{title:.....}のtitleのみを受け取ることができる！
-  return <h1>このページは{title}のページです。</h1>;
+  //retrieve a pageとretrieve blocks childrenの両方を受け取る
+  return (
+    <h1>
+      このページは{props_page.title}のページです。 1つめのブロックのタイプは{props_blocks.type}
+      です。
+    </h1>
+  );
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const post = context.params.post;
   //postを{post}としていたために、オブジェクト扱いになってしまっていた。そのため、getPageの引数に入れることができなかった。
   //結局getStaticPropsは名前の通り、propsを作り出してgetStaticPropsがある同ページ内でそのpropsを受け取ることができるようにするもの！
-  const page = await getPage(post);
-  const props = {
+  const pageAndBlocks = await Promise.all([getPage(post), getBlocks(post)]);
+  const page = pageAndBlocks[0];
+  const blocks = pageAndBlocks[1];
+  const props_page = {
     title: `title: ${page.properties.title.title[0].plain_text}`,
   };
+  //props→props_page
+  const props_blocks = {
+    type: `type: ${blocks[0].type}`,
+  };
   return {
-    props,
+    props: { props_page, props_blocks },
+    //props→props:{props_page,props_blocks}に変更
     revalidate: 10,
   };
 };
