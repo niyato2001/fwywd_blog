@@ -135,7 +135,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const page = pageAndBlocks[0];
   const blocks = pageAndBlocks[1];
   const props_page = {
-    title: '{page.properties.title.title[0].plain_text}',
+    title: page.properties.title.title[0].plain_text,
   };
   //props→props_page
   const childBlocks = await Promise.all(
@@ -172,6 +172,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }));
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 };
