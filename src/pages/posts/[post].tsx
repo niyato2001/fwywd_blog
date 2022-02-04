@@ -116,14 +116,21 @@ export default function Post({ props_page, blocks }) {
   //{title}とすることで、props:{title:.....}のtitleのみを受け取ることができる！
   //retrieve a pageとretrieve blocks childrenの両方を受け取る
   return (
-    <article>
-      <h1>{props_page.title}</h1>
-      <section>
-        {blocks.map((block) => (
-          <Fragment key={block.id}>{renderBlock(block)}</Fragment>
-        ))}
-      </section>
-    </article>
+    <div className='flex gap-10 bg-bg-gray-light px-20 py-10'>
+      <div className='flex flex-col gap-10'>
+        <Image src='/twitter.png' alt='footer_twitter' width={36} height={30} />
+        <Image src='/facebook.png' alt='footer_facebook' width={36} height={36} />
+      </div>
+      <article className='rounded-xl bg-white p-10'>
+        <h1>{props_page.title}</h1>
+        <section>
+          {blocks.map((block) => (
+            <Fragment key={block.id}>{renderBlock(block)}</Fragment>
+          ))}
+        </section>
+      </article>
+      <div className='rounded-xl bg-white'></div>
+    </div>
   );
 }
 
