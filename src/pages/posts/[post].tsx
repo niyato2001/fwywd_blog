@@ -197,6 +197,8 @@ export default function Post({ props_page, blocks }) {
       </div>
       <article className='rounded-xl bg-white p-10'>
         <h1>{props_page.title}</h1>
+        <div>{props_page.date}</div>
+        <div>{props_page.tag}</div>
         <section>
           {blocks.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
@@ -218,6 +220,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
   //blocksはparagraphなどのtypeごとの配列
   const props_page = {
     title: page.properties.title.title[0].plain_text,
+    date: page.properties.date.date.start,
+    tag: page.properties.tag.multi_select.map((tag) => {
+      return tag.name;
+    }),
   };
   //props→props_page
   const childBlocks = await Promise.all(
