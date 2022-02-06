@@ -11,8 +11,7 @@ import { getPage } from '../lib/notion/get-page';
 interface Props {
   title: string;
   date: string;
-  tag1: string;
-  tag2: string;
+  tag: string[];
   href: string;
 }
 
@@ -40,8 +39,9 @@ export default function Home({ posts }) {
                   key={i}
                   title={post.properties.title.title[0].plain_text}
                   date={post.properties.date.date.start}
-                  tag1={post.properties.tag.multi_select[0].name}
-                  tag2={post.properties.tag.multi_select[1].name}
+                  tag={post.properties.tag.multi_select.map((tag) => {
+                    return tag.name;
+                  })}
                   href={post.id}
                 />
               );
