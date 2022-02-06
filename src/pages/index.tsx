@@ -20,7 +20,7 @@ export default function Home({ posts }) {
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
+        <title>fwywd Blog</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Hero />
@@ -64,6 +64,7 @@ export default function Home({ posts }) {
 const databaseId = process.env.NOTION_DATABASE_ID;
 export const getStaticProps: GetStaticProps = async () => {
   const database = await getDatabase(databaseId);
+  //database = [{仮ページ3},{仮ページ2},{仮ページ1}・・・]
   return {
     props: {
       posts: database,
