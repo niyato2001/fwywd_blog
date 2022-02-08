@@ -16,5 +16,5 @@ export const getBlocks = async (blockId) => {
     });
     results = [...results, ...response.results];
   }
-  return [...results];
+  return results;
 };
