@@ -15,6 +15,7 @@ export const getBlocks = async (blockId) => {
       start_cursor: response.next_cursor,
     });
     results = [...results, ...response.results];
+    //この時点でresults = [{block1},{block2},...]のようなブロックの配列になっている！
   }
   return results;
 };
