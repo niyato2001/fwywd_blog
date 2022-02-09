@@ -19,10 +19,20 @@ export default function Post({ props_page, blocks }) {
         <Image src='/twitter.png' alt='footer_twitter' width={36} height={30} />
         <Image src='/facebook.png' alt='footer_facebook' width={36} height={36} />
       </div>
-      <article className='max-w-5xl rounded-xl bg-white p-10'>
-        <h1>{props_page.title}</h1>
-        <div>{props_page.date}</div>
-        <div>{props_page.tag}</div>
+      <article className='max-w-4xl rounded-xl bg-white p-10'>
+        <h1 className='text-2xl font-bold'>{props_page.title}</h1>
+        <div className='flex-start flex gap-4 py-10'>
+          <div className='text-bg-gray-dark'>{props_page.date}</div>
+          <div className='flex gap-2 text-bg-gray-dark'>
+            {props_page.tag.map((tag, i) => {
+              return (
+                <div key={i} className='rounded-md border-2 border-bg-gray-dark px-3 py-1 text-xs'>
+                  {tag}
+                </div>
+              );
+            })}
+          </div>
+        </div>
         <section>
           {blocks.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
