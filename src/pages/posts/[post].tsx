@@ -19,7 +19,7 @@ export default function Post({ props_page, blocks }) {
         <Image src='/twitter.png' alt='footer_twitter' width={36} height={30} />
         <Image src='/facebook.png' alt='footer_facebook' width={36} height={36} />
       </div>
-      <article className='rounded-xl bg-white p-10'>
+      <article className='max-w-5xl rounded-xl bg-white p-10'>
         <h1>{props_page.title}</h1>
         <div>{props_page.date}</div>
         <div>{props_page.tag}</div>
@@ -29,7 +29,13 @@ export default function Post({ props_page, blocks }) {
           ))}
         </section>
       </article>
-      <div className='rounded-xl bg-white'></div>
+      <div className='max-w-2xl rounded-xl bg-white'>
+        {blocks.map((block) => {
+          if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
+            return <h2>{block.paragraph.text[0].text.content}</h2>;
+          }
+        })}
+      </div>
     </div>
   );
 }

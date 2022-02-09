@@ -26,21 +26,25 @@ export const Text = ({ text }) => {
     //  "href": null
     //}
     //]のような配列構造で、そのうちのtextとannotationに対して分割代入している。
-    return (
-      <span
-        key={i}
-        className={[
-          bold ? 'font-bold' : '',
-          code ? 'bg-gray-light rounded-3xl px-2 py-4 font-mono' : '',
-          italic ? 'italic' : '',
-          strikethrough ? 'line-through' : '',
-          underline ? 'underline' : '',
-        ].join(' ')}
-        style={color !== 'default' ? { color } : {}}
-      >
-        {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
-        {/*text.linkがtrueならばaタグ、そうでなければ単純にtext.contentのspanタグ*/}
-      </span>
-    );
+    if (text.content === '【目次】') {
+      return null;
+    } else {
+      return (
+        <span
+          key={i}
+          className={[
+            bold ? 'font-bold' : '',
+            code ? 'bg-gray-light rounded-3xl px-2 py-4 font-mono' : '',
+            italic ? 'italic' : '',
+            strikethrough ? 'line-through' : '',
+            underline ? 'underline' : '',
+          ].join(' ')}
+          style={color !== 'default' ? { color } : {}}
+        >
+          {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
+          {/*text.linkがtrueならばaタグ、そうでなければ単純にtext.contentのspanタグ*/}
+        </span>
+      );
+    }
   });
 };
