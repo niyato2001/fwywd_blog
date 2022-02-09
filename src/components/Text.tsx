@@ -8,6 +8,7 @@ export const Text = ({ text }) => {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
     } = value;
+    //分割代入によりtext = value.textになっている。
     //textは[
     //{"type": "text",
     //  "text": {
