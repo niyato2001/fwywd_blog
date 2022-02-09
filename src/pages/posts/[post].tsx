@@ -70,7 +70,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       //xはblocks.filterで作られたblock.has_childrenがtrueのみのblockによる配列の要素（idとchildren）
       //childBlocks=[{id:block.id,children:await getBlocks(block.id),{id:...,children:...},...]
       //x.idはchildBlocksで呼び出されているblock.idであり、あとのblock.idはblocksSithChildrenで呼び出されているblock.id
-      //".?"はオプショナルチェーン演算子とよび、childblocks.find()がある場合にchildrenを呼び出す。childblocks.find()がnullの場合はundefinedを返す。
+      //"?."はオプショナルチェーン演算子とよび、childblocks.find()がある場合にchildrenを呼び出す。childblocks.find()がnullの場合はundefinedを返す。
     }
     return block;
     //has_childrenがtrueのものは、childrenが加えられた状態でfalseのものはそのままreturnされる。
