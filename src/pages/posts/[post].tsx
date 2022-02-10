@@ -6,6 +6,7 @@ import { getBlocks } from '../../lib/notion/get-blocks';
 import { getDatabase } from '../../lib/notion/get-database';
 import { getPage } from '../../lib/notion/get-page';
 import { renderBlock } from '../../lib/notion/render-block';
+import { renderBlockContents } from '../../lib/notion/render-block-contents';
 
 export default function Post({ props_page, blocks }) {
   if (!props_page || !blocks) {
@@ -44,6 +45,7 @@ export default function Post({ props_page, blocks }) {
           if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
             return <h2>{block.paragraph.text[0].text.content}</h2>;
           }
+          return <Fragment key={block.id}>{renderBlockContents(block)}</Fragment>;
         })}
       </div>
     </div>
