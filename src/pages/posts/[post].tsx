@@ -40,12 +40,16 @@ export default function Post({ props_page, blocks }) {
           ))}
         </section>
       </article>
-      <div className='max-w-2xl rounded-xl bg-white p-5'>
+      <div className='max-w-sm rounded-xl bg-white p-5'>
         {blocks.map((block) => {
           if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
             return <h2>{block.paragraph.text[0].text.content}</h2>;
           }
-          return <Fragment key={block.id}>{renderBlockContents(block)}</Fragment>;
+          return (
+            <ol key={block.id}>
+              <li>{renderBlockContents(block)}</li>
+            </ol>
+          );
         })}
       </div>
     </div>

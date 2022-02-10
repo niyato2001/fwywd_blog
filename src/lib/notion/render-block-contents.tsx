@@ -1,3 +1,4 @@
+import { Contents } from '../../components/Contents';
 import { Text } from '../../components/Text';
 
 export const renderBlockContents = (block) => {
@@ -61,13 +62,13 @@ export const renderBlockContents = (block) => {
   switch (type) {
     case 'heading_1':
       return (
-        <h1>
-          <Text text={value.text} />
+        <h1 className='text-sm font-bold'>
+          <Contents text={value.text} />
         </h1>
       );
     case 'heading_2':
       return (
-        <h2>
+        <h2 className='px-2 text-xs'>
           <Text text={value.text} />
         </h2>
       );
