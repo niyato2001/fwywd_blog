@@ -31,7 +31,11 @@ export const Contents = ({ text }) => {
       return null;
     } else {
       return (
-        <p key={i} className='py-2' style={color !== 'default' ? { color } : {}}>
+        <p
+          key={i}
+          className='border-t border-bg-gray-dark pt-2'
+          style={color !== 'default' ? { color } : {}}
+        >
           {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
           {/*text.linkがtrueならばaタグ、そうでなければ単純にtext.contentのspanタグ*/}
         </p>

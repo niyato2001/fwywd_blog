@@ -68,19 +68,19 @@ export const renderBlock = (block) => {
       );
     case 'heading_1':
       return (
-        <h1>
+        <h1 className='text-2xl'>
           <Text text={value.text} />
         </h1>
       );
     case 'heading_2':
       return (
-        <h2>
+        <h2 className='text-xl'>
           <Text text={value.text} />
         </h2>
       );
     case 'heading_3':
       return (
-        <h3>
+        <h3 className='text-lg'>
           <Text text={value.text} />
         </h3>
       );

@@ -1,4 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
@@ -15,42 +16,51 @@ export default function Post({ props_page, blocks }) {
   //{title}とすることで、props:{title:.....}のtitleのみを受け取ることができる！
   //retrieve a pageとretrieve blocks childrenの両方を受け取る
   return (
-    <div className='flex items-start gap-10 bg-bg-gray-light px-20 py-10 leading-10'>
-      <div className='flex flex-col gap-10'>
-        <Image src='/twitter.png' alt='footer_twitter' width={36} height={30} />
-        <Image src='/facebook.png' alt='footer_facebook' width={36} height={36} />
-      </div>
-      <article className='max-w-4xl rounded-xl bg-white p-10'>
-        <h1 className='text-2xl font-bold'>{props_page.title}</h1>
-        <div className='flex items-center justify-items-start gap-4 py-10'>
-          <div className='text-bg-gray-dark'>{props_page.date}</div>
-          <div className='flex gap-2 text-bg-gray-dark'>
-            {props_page.tag.map((tag, i) => {
-              return (
-                <div key={i} className='rounded-md border-2 border-bg-gray-dark px-3 py-1 text-xs'>
-                  {tag}
-                </div>
-              );
-            })}
-          </div>
+    <div>
+      <Head>
+        <title>{props_page.title}</title>
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <div className='flex items-start gap-10 bg-bg-gray-light px-20 py-10 leading-10'>
+        <div className='flex flex-col gap-10'>
+          <Image src='/twitter.png' alt='footer_twitter' width={36} height={30} />
+          <Image src='/facebook.png' alt='footer_facebook' width={36} height={36} />
         </div>
-        <section>
-          {blocks.map((block) => (
-            <Fragment key={block.id}>{renderBlock(block)}</Fragment>
-          ))}
-        </section>
-      </article>
-      <div className='max-w-sm rounded-xl bg-white p-5'>
-        {blocks.map((block) => {
-          if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
-            return <h2>{block.paragraph.text[0].text.content}</h2>;
-          }
-          return (
-            <ol key={block.id}>
-              <li>{renderBlockContents(block)}</li>
-            </ol>
-          );
-        })}
+        <article className='max-w-4xl rounded-xl bg-white p-10'>
+          <h1 className='text-3xl font-bold'>{props_page.title}</h1>
+          <div className='flex items-center justify-items-start gap-4 py-10'>
+            <div className='text-bg-gray-dark'>{props_page.date}</div>
+            <div className='flex gap-2 text-bg-gray-dark'>
+              {props_page.tag.map((tag, i) => {
+                return (
+                  <div
+                    key={i}
+                    className='rounded-md border-2 border-bg-gray-dark px-3 py-1 text-xs'
+                  >
+                    {tag}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <section>
+            {blocks.map((block) => (
+              <Fragment key={block.id}>{renderBlock(block)}</Fragment>
+            ))}
+          </section>
+        </article>
+        <div className='max-w-sm rounded-xl bg-white p-5'>
+          {blocks.map((block) => {
+            if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
+              return <h2>{block.paragraph.text[0].text.content}</h2>;
+            }
+            return (
+              <ol key={block.id}>
+                <li>{renderBlockContents(block)}</li>
+              </ol>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
