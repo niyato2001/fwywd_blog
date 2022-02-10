@@ -1,3 +1,5 @@
+import { faTwitter, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -23,8 +25,9 @@ export default function Post({ props_page, blocks }) {
       </Head>
       <div className='flex items-start gap-10 bg-bg-gray-light px-20 py-10 leading-10'>
         <div className='flex flex-col gap-10'>
-          <Image src='/twitter.png' alt='footer_twitter' width={36} height={30} />
-          <Image src='/facebook.png' alt='footer_facebook' width={36} height={36} />
+          <FontAwesomeIcon icon={faTwitter} width={32} height={32} />
+          <FontAwesomeIcon icon={faFacebook} width={32} height={32} />
+          {/*Imageタグのほうが処理早ければそちらを利用*/}
         </div>
         <article className='max-w-4xl rounded-xl bg-white p-10'>
           <h1 className='text-3xl font-bold'>{props_page.title}</h1>
@@ -54,11 +57,7 @@ export default function Post({ props_page, blocks }) {
             if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
               return <h2>{block.paragraph.text[0].text.content}</h2>;
             }
-            return (
-              <ol key={block.id}>
-                <li>{renderBlockContents(block)}</li>
-              </ol>
-            );
+            return <div key={block.id}>{renderBlockContents(block)}</div>;
           })}
         </div>
       </div>

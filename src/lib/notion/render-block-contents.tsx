@@ -68,7 +68,7 @@ export const renderBlockContents = (block) => {
       );
     case 'heading_2':
       return (
-        <h2 className='inline-block px-2 py-2 text-xs'>
+        <h2 className='inline-block px-2 pt-2 text-xs'>
           <Text text={value.text} />
         </h2>
       );
