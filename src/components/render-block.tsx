@@ -63,19 +63,19 @@ export const renderBlock = (block) => {
   switch (type) {
     case 'paragraph':
       return (
-        <p>
+        <p className='my-4'>
           <Text text={value.text} />
         </p>
       );
     case 'heading_1':
       return (
-        <h2 className='border-b border-font-black py-3 text-2xl'>
-          <Text text={value.text} />
+        <h2 className='mb-5 border-b border-font-black py-3 text-2xl'>
+          <Contents text={value.text} />
         </h2>
       );
     case 'heading_2':
       return (
-        <h3 className='bg-bg-gray-light py-3 text-lg'>
+        <h3 className='bg-gray-100 p-3 text-lg'>
           <Text text={value.text} />
         </h3>
       );
@@ -88,7 +88,7 @@ export const renderBlock = (block) => {
     case 'bulleted_list_item':
     case 'numbered_list_item':
       return (
-        <li>
+        <li className='text-sm'>
           <Text text={value.text} />
         </li>
       );
