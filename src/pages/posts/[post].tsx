@@ -5,11 +5,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
+import { renderBlock } from '../../components/render-block';
+import { renderBlockContents } from '../../components/render-block-contents';
 import { getBlocks } from '../../lib/notion/get-blocks';
 import { getDatabase } from '../../lib/notion/get-database';
 import { getPage } from '../../lib/notion/get-page';
-import { renderBlock } from '../../lib/notion/render-block';
-import { renderBlockContents } from '../../lib/notion/render-block-contents';
 
 export default function Post({ props_page, blocks }) {
   if (!props_page || !blocks) {
@@ -55,9 +55,9 @@ export default function Post({ props_page, blocks }) {
         <div className='max-w-sm rounded-xl bg-white p-5'>
           {blocks.map((block) => {
             if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
-              return <h2>{block.paragraph.text[0].text.content}</h2>;
+              return <div>{block.paragraph.text[0].text.content}</div>;
             }
-            return <div key={block.id}>{renderBlockContents(block)}</div>;
+            return <Fragment key={block.id}>{renderBlockContents(block)}</Fragment>;
           })}
         </div>
       </div>

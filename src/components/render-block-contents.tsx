@@ -1,5 +1,5 @@
-import { Contents } from '../../components/Contents';
-import { Text } from '../../components/Text';
+import { Contents } from './Contents';
+import { Text } from './Text';
 
 export const renderBlockContents = (block) => {
   //blockはオブジェクト
@@ -62,21 +62,21 @@ export const renderBlockContents = (block) => {
   switch (type) {
     case 'heading_1':
       return (
-        <h1 className='border-t border-bg-gray-dark pt-2 text-sm font-bold'>
-          <Contents text={value.text} />
-        </h1>
-      );
-    case 'heading_2':
-      return (
-        <h2 className='inline-block px-2 pt-2 text-xs'>
+        <h2 className='border-t border-bg-gray-dark pt-2 text-sm font-bold'>
           <Text text={value.text} />
         </h2>
       );
-    case 'heading_3':
+    case 'heading_2':
       return (
-        <h3>
+        <h3 className='inline-block px-2 pt-2 text-xs'>
           <Text text={value.text} />
         </h3>
+      );
+    case 'heading_3':
+      return (
+        <div>
+          <Text text={value.text} />
+        </div>
       );
     default:
       //      return `❌ Unsupported block (${

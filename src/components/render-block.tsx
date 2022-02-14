@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
-import { Contents } from '../../components/Contents';
-import { Text } from '../../components/Text';
+import { Contents } from './Contents';
+import { Text } from './Text';
 
 export const renderBlock = (block) => {
   //blockはオブジェクト
@@ -69,21 +69,21 @@ export const renderBlock = (block) => {
       );
     case 'heading_1':
       return (
-        <h1 className='border-b border-font-black py-3 text-2xl'>
-          <Contents text={value.text} />
-        </h1>
-      );
-    case 'heading_2':
-      return (
-        <h2 className='text-xl'>
+        <h2 className='border-b border-font-black py-3 text-2xl'>
           <Text text={value.text} />
         </h2>
       );
-    case 'heading_3':
+    case 'heading_2':
       return (
-        <h3 className='text-lg'>
+        <h3 className='bg-bg-gray-light py-3 text-lg'>
           <Text text={value.text} />
         </h3>
+      );
+    case 'heading_3':
+      return (
+        <h4 className='text-lg'>
+          <Text text={value.text} />
+        </h4>
       );
     case 'bulleted_list_item':
     case 'numbered_list_item':
