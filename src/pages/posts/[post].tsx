@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import { renderBlock } from '../../components/render-block';
@@ -23,7 +24,7 @@ export default function Post({ props_page, blocks }) {
         <title>{props_page.title}</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className='flex items-start gap-10 bg-bg-gray-light px-20 py-10 leading-5'>
+      <div className='flex items-start gap-10 bg-bg-gray-light px-20 py-10 leading-7'>
         <div className='flex flex-col gap-10'>
           <FontAwesomeIcon icon={faTwitter} width={32} height={32} />
           <FontAwesomeIcon icon={faFacebook} width={32} height={32} />
@@ -67,6 +68,11 @@ export default function Post({ props_page, blocks }) {
             }
             return <Fragment key={block.id}>{renderBlockContents(block)}</Fragment>;
           })}
+          <div className='mt-4 border-t border-bg-gray-dark pt-4 text-sm'>
+            <Link href='/'>
+              <a>トップページに戻る</a>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
