@@ -23,7 +23,7 @@ export default function Post({ props_page, blocks }) {
         <title>{props_page.title}</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className='flex items-start gap-10 bg-bg-gray-light px-20 py-10 leading-10'>
+      <div className='flex items-start gap-10 bg-bg-gray-light px-20 py-10 leading-5'>
         <div className='flex flex-col gap-10'>
           <FontAwesomeIcon icon={faTwitter} width={32} height={32} />
           <FontAwesomeIcon icon={faFacebook} width={32} height={32} />
@@ -52,10 +52,18 @@ export default function Post({ props_page, blocks }) {
             ))}
           </section>
         </article>
-        <div className='max-w-sm rounded-xl bg-white p-5'>
+        <div className='relative max-w-sm rounded-xl bg-white p-5 text-base'>
           {blocks.map((block) => {
             if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
-              return <div>{block.paragraph.text[0].text.content}</div>;
+              return (
+                <div>
+                  <div className='z-1 -top-0.75 absolute flex w-11/12 items-center justify-start gap-3 bg-white'>
+                    <div>{block.paragraph.text[0].text.content}</div>
+                    <div className='w-4/5 border-t-2 border-bg-gray-dark'></div>
+                  </div>
+                  <div className='h-3'></div>
+                </div>
+              );
             }
             return <Fragment key={block.id}>{renderBlockContents(block)}</Fragment>;
           })}
