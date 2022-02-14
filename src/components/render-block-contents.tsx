@@ -62,21 +62,21 @@ export const renderBlockContents = (block) => {
   switch (type) {
     case 'heading_1':
       return (
-        <h2 className='border-t border-bg-gray-dark pt-2 text-sm font-bold'>
+        <h2 className='border-t border-bg-gray-dark pt-4 text-sm font-bold'>
           <Text text={value.text} />
         </h2>
       );
     case 'heading_2':
       return (
-        <h3 className='inline-block px-2 pt-2 text-xs'>
+        <h3 className='inline-block px-2 py-2 text-xs'>
           <Text text={value.text} />
         </h3>
       );
     case 'heading_3':
       return (
-        <div>
+        <h4>
           <Text text={value.text} />
-        </div>
+        </h4>
       );
     default:
       //      return `❌ Unsupported block (${
