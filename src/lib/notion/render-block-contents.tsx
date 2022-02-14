@@ -62,7 +62,7 @@ export const renderBlockContents = (block) => {
   switch (type) {
     case 'heading_1':
       return (
-        <h1 className='text-sm font-bold'>
+        <h1 className='border-t border-bg-gray-dark pt-2 text-sm font-bold'>
           <Contents text={value.text} />
         </h1>
       );

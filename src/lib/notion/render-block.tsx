@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { Contents } from '../../components/Contents';
 import { Text } from '../../components/Text';
 
 export const renderBlock = (block) => {
@@ -68,8 +69,8 @@ export const renderBlock = (block) => {
       );
     case 'heading_1':
       return (
-        <h1 className='text-2xl'>
-          <Text text={value.text} />
+        <h1 className='border-b border-font-black py-3 text-2xl'>
+          <Contents text={value.text} />
         </h1>
       );
     case 'heading_2':
