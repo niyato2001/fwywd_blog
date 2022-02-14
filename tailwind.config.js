@@ -16,6 +16,9 @@ module.exports = {
       white: colors.white,
       gray: colors.gray,
     },
+    screens: {
+      laptop: '1440px',
+    },
     extend: {},
   },
   plugins: [require('@tailwindcss/line-clamp')],

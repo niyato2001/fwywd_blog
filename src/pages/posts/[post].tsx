@@ -57,11 +57,11 @@ export default function Post({ props_page, blocks }) {
             if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
               return (
                 <div>
-                  <div className='z-1 -top-0.75 absolute flex w-11/12 items-center justify-start gap-3 bg-white'>
+                  <div className='laptop:z-1 laptop:-top-0.75 hidden laptop:absolute laptop:flex laptop:w-11/12 laptop:items-center laptop:justify-start laptop:gap-3 laptop:bg-white'>
                     <div>{block.paragraph.text[0].text.content}</div>
                     <div className='w-4/5 border-t-2 border-bg-gray-dark'></div>
                   </div>
-                  <div className='h-3'></div>
+                  <div className='laptop:h-3'></div>
                 </div>
               );
             }
