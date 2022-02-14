@@ -68,7 +68,7 @@ export default function Post({ props_page, blocks }) {
             }
             return <Fragment key={block.id}>{renderBlockContents(block)}</Fragment>;
           })}
-          <div className='mt-4 border-t border-bg-gray-dark pt-4 text-sm'>
+          <div className='border-t border-bg-gray-dark pt-4 text-sm'>
             <Link href='/'>
               <a>トップページに戻る</a>
             </Link>
@@ -120,6 +120,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return block;
     //has_childrenがtrueのものは、childrenが加えられた状態でfalseのものはそのままreturnされる。
   });
+  console.log(props_page);
+  console.log(blocksWithChildren);
   return {
     props: { props_page, blocks: blocksWithChildren },
     //pageとデータベースの2つの情報を入れるためprops→props:{props_page,props_blocks}に変更
