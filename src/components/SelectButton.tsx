@@ -10,6 +10,7 @@ export default function SelectButton() {
     >
       <option value='/'>Home</option>
       <option value='/blogtables'>ページ1</option>
+      <option value='/blogtables/{router.query.number}'>ページ{router.query.number}</option>
     </select>
   );
 }
