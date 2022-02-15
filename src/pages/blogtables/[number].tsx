@@ -100,6 +100,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     [...Array(pageNumber)].map((_, i) => {
       listPaths.push(String(i + 1));
     });
+    //[...Array()]は要素の個数はあるものの空のリストなのでそこから番号が振られたリスト（listPaths）を作成する！
   } else {
     [...Array(pageNumber + 1)].map((_, i) => {
       listPaths.push(String(i + 1));
