@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import BlogCard from '../../components/BlogCard';
@@ -62,5 +62,18 @@ export const getStaticProps: GetStaticProps = async () => {
       posts: database,
     },
     revalidate: 30,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const database = await getDatabase(databaseId);
+  //databaseはresponse.resultsと同様のオブジェクト
+  //getStaticPathsは名前の通りpathsを作り出す。pathsはcontextとしてgetStaticPropsで受け取ることが可能。
+  const paths = database.map((post) => ({
+    params: { post: post.id.toString() },
+  }));
+  return {
+    paths,
+    fallback: false,
   };
 };
