@@ -16,6 +16,24 @@ interface Props {
 }
 
 export default function Home({ posts }) {
+  console.log([
+    ...Array(
+      posts.length % 6 === 0 ? Math.floor(posts.length / 6) : Math.floor(posts.length / 6) + 1,
+    ),
+  ]);
+  const pageNumber: number = Math.floor(posts.length / 6);
+  const pageList: string[] = [];
+  if (posts.length % 6 === 0) {
+    [...Array(pageNumber)].map((_, i) => {
+      pageList.push(String(i + 1));
+    });
+  } else {
+    [...Array(pageNumber + 1)].map((_, i) => {
+      pageList.push(String(i + 1));
+      //i+1はindexが0スタートのため。i+1とすれば1スタートになるので。
+    });
+  }
+  console.log(pageList);
   return (
     <div>
       <Head>
@@ -53,7 +71,7 @@ export default function Home({ posts }) {
               <div>1/26</div>
               <div>v</div>
             </button>
-            <SelectButton />
+            <SelectButton numbers={pageList} />
             <button className='rounded-r-md bg-button-green p-3'>次へ</button>
           </div>
         </div>
