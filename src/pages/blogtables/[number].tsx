@@ -8,9 +8,11 @@ import { getDatabase } from '../../lib/notion/get-database';
 export default function Page({ params }) {
   const router = useRouter();
   const { number } = router.query;
+  //number = router.query.numberと同じ。分割代入
   console.log(params);
-  //paramsはgetStaticPropsのdatabaseを受け取っている。
+  //paramsはgetStaticPropsのdatabase=[{page1},{page2}...]を受け取っている。
   const new_params = params.slice(0 + 6 * (Number(number) - 1), 6 + 6 * (Number(number) - 1));
+  //paramsを6個ずつにスライスしてdatabaseを分割
   return (
     <div>
       <Head>
@@ -28,13 +30,14 @@ export default function Page({ params }) {
             <div className='inline-block font-bold text-font-black'>
               {number}/
               {params.length % 6 === 0
-                ? Math.floor(params.length / 6)
-                : Math.floor(params.length / 6) + 1}{' '}
+                ? Math.floor(params.length / 6).toString()
+                : (Math.floor(params.length / 6) + 1).toString()}
               ページ
             </div>
           </div>
           <div className='grid grid-cols-3 grid-rows-2 gap-10 py-16'>
             {new_params.map((post, i) => {
+              //postsからnew_paramsに変更しただけ
               return (
                 <BlogCard
                   key={i}
