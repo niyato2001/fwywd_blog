@@ -5,8 +5,12 @@ import BlogCard from '../../components/BlogCard';
 import SelectButton from '../../components/SelectButton';
 import { getDatabase } from '../../lib/notion/get-database';
 
-export default function Page({ posts }) {
+export default function Page({ params }) {
   const router = useRouter();
+  const { number } = router.query;
+  console.log(params);
+  //paramsはgetStaticPropsのdatabaseを受け取っている。
+  const new_params = params.slice(0 + 6 * (Number(number) - 1), 6 + 6 * (Number(number) - 1));
   return (
     <div>
       <Head>
@@ -21,10 +25,16 @@ export default function Page({ posts }) {
             <div className='inline-block rounded-md border-2 border-button-border px-3 py-1 text-xs text-font-green'>
               プログラミング
             </div>
-            <div className='inline-block font-bold text-font-black'>1/26 ページ</div>
+            <div className='inline-block font-bold text-font-black'>
+              {number}/
+              {params.length % 6 === 0
+                ? Math.floor(params.length / 6)
+                : Math.floor(params.length / 6) + 1}{' '}
+              ページ
+            </div>
           </div>
           <div className='grid grid-cols-3 grid-rows-2 gap-10 py-16'>
-            {posts.map((post, i) => {
+            {new_params.map((post, i) => {
               return (
                 <BlogCard
                   key={i}
@@ -59,7 +69,7 @@ export const getStaticProps: GetStaticProps = async () => {
   //database = [{仮ページ3},{仮ページ2},{仮ページ1}・・・]
   return {
     props: {
-      posts: database,
+      params: database,
     },
     revalidate: 30,
   };
@@ -69,8 +79,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const database = await getDatabase(databaseId);
   //databaseはresponse.resultsと同様のオブジェクト
   //getStaticPathsは名前の通りpathsを作り出す。pathsはcontextとしてgetStaticPropsで受け取ることが可能。
-  const paths = database.map((post) => ({
-    params: { post: post.id.toString() },
+  const pageNumber: number = Math.floor(database.length / 6);
+  const listPaths: string[] = [];
+  if (database.length % 6 === 0) {
+    [...Array(pageNumber)].map((_, i) => {
+      listPaths.push(String(i + 1));
+    });
+  } else {
+    [...Array(pageNumber + 1)].map((_, i) => {
+      listPaths.push(String(i + 1));
+      //i+1はindexが0スタートのため。i+1とすれば1スタートになるので。
+    });
+  }
+  const paths = listPaths.map((id) => ({
+    params: { number: id },
   }));
   return {
     paths,
