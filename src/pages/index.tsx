@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import BlogCard from '../components/BlogCard';
 import Hero from '../components/Hero';
-import PageMain from '../components/PageMain';
+import SelectButton from '../components/SelectButton';
 import { getDatabase } from '../lib/notion/get-database';
 import { getPage } from '../lib/notion/get-page';
 
@@ -53,6 +53,7 @@ export default function Home({ posts }) {
               <div>1/26</div>
               <div>v</div>
             </button>
+            <SelectButton />
             <button className='rounded-r-md bg-button-green p-3'>次へ</button>
           </div>
         </div>
