@@ -1,6 +1,11 @@
 import Router, { useRouter } from 'next/router';
+import { getStaticProps } from '../pages';
 
-export default function SelectButton() {
+interface Props {
+  numbers: string[];
+}
+
+export default function SelectButton(props: Props) {
   const router = useRouter();
   return (
     <select
@@ -9,8 +14,13 @@ export default function SelectButton() {
       defaultValue={router.pathname}
     >
       <option value='/'>Home</option>
-      <option value='/blogtables'>ページ1</option>
-      <option value='/blogtables/{router.query.number}'>ページ{router.query.number}</option>
+      {props.numbers.map((number, i) => {
+        return (
+          <option key={i} value={`/blogtables/${number}`}>
+            ページ{number}
+          </option>
+        );
+      })}
     </select>
   );
 }
