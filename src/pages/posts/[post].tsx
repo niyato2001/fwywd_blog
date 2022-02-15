@@ -87,6 +87,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const page = pageAndBlocks[0];
   const blocks = pageAndBlocks[1];
   //blocksはparagraphなどのtypeごとの配列
+  console.log(page);
   const props_page = {
     title: page.properties.title.title[0].plain_text,
     date: page.properties.date.date.start,
