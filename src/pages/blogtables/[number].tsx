@@ -9,10 +9,22 @@ export default function Page({ params }) {
   const router = useRouter();
   const { number } = router.query;
   //number = router.query.numberと同じ。分割代入
-  console.log(params);
   //paramsはgetStaticPropsのdatabase=[{page1},{page2}...]を受け取っている。
   const new_params = params.slice(0 + 6 * (Number(number) - 1), 6 + 6 * (Number(number) - 1));
   //paramsを6個ずつにスライスしてdatabaseを分割
+  const pageNumber: number = Math.floor(params.length / 6);
+  const pageList: string[] = [];
+  if (params.length % 6 === 0) {
+    [...Array(pageNumber)].map((_, i) => {
+      pageList.push(String(i + 1));
+    });
+  } else {
+    [...Array(pageNumber + 1)].map((_, i) => {
+      pageList.push(String(i + 1));
+      //i+1はindexが0スタートのため。i+1とすれば1スタートになるので。
+    });
+  }
+  console.log(pageList);
   return (
     <div>
       <Head>
@@ -57,7 +69,7 @@ export default function Page({ params }) {
               <div>1/26</div>
               <div>v</div>
             </button>
-            <SelectButton />
+            <SelectButton numbers={pageList} />
             <button className='rounded-r-md bg-button-green p-3'>次へ</button>
           </div>
         </div>
