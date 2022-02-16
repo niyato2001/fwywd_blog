@@ -7,6 +7,7 @@ import Hero from '../components/Hero';
 import SelectButton from '../components/SelectButton';
 import { getDatabase } from '../lib/notion/get-database';
 import { getPage } from '../lib/notion/get-page';
+import PageList from '../lib/pagenation/PageList';
 
 interface Props {
   title: string;
@@ -21,18 +22,8 @@ export default function Home({ posts }) {
       posts.length % 6 === 0 ? Math.floor(posts.length / 6) : Math.floor(posts.length / 6) + 1,
     ),
   ]);
-  const pageNumber: number = Math.floor(posts.length / 6);
-  const pageList: string[] = [];
-  if (posts.length % 6 === 0) {
-    [...Array(pageNumber)].map((_, i) => {
-      pageList.push(String(i + 1));
-    });
-  } else {
-    [...Array(pageNumber + 1)].map((_, i) => {
-      pageList.push(String(i + 1));
-      //i+1はindexが0スタートのため。i+1とすれば1スタートになるので。
-    });
-  }
+  const pageList: string[] = PageList(posts);
+
   console.log(pageList);
   return (
     <div>

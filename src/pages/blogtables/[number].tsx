@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import BlogCard from '../../components/BlogCard';
 import SelectButton from '../../components/SelectButton';
 import { getDatabase } from '../../lib/notion/get-database';
+import PageList from '../../lib/pagenation/PageList';
 
 export default function Page({ params }) {
   const router = useRouter();
@@ -12,18 +13,7 @@ export default function Page({ params }) {
   //paramsはgetStaticPropsのdatabase=[{page1},{page2}...]を受け取っている。
   const new_params = params.slice(0 + 6 * (Number(number) - 1), 6 + 6 * (Number(number) - 1));
   //paramsを6個ずつにスライスしてdatabaseを分割
-  const pageNumber: number = Math.floor(params.length / 6);
-  const pageList: string[] = [];
-  if (params.length % 6 === 0) {
-    [...Array(pageNumber)].map((_, i) => {
-      pageList.push(String(i + 1));
-    });
-  } else {
-    [...Array(pageNumber + 1)].map((_, i) => {
-      pageList.push(String(i + 1));
-      //i+1はindexが0スタートのため。i+1とすれば1スタートになるので。
-    });
-  }
+  const pageList: string[] = PageList(params);
   console.log(pageList);
   return (
     <div>
