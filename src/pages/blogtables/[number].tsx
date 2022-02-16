@@ -1,6 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useRouter, Router } from 'next/router';
 import BlogCard from '../../components/BlogCard';
 import SelectButton from '../../components/SelectButton';
 import { getDatabase } from '../../lib/notion/get-database';
@@ -54,9 +55,14 @@ export default function Page({ params }) {
             })}
           </div>
           <div className='mx-auto flex items-center justify-center gap-1   text-white'>
-            <button className='rounded-l-md bg-button-green p-3'>前へ</button>
+            {Number(number) - 1 === 0 ? null : (
+              <button className='rounded-l-md bg-button-green p-3'>前へ</button>
+            )}
+
             <SelectButton numbers={pageList} />
-            <button className='rounded-r-md bg-button-green p-3'>次へ</button>
+            {Number(number) === pageList.length ? null : (
+              <button className='rounded-r-md bg-button-green p-3'>次へ</button>
+            )}
           </div>
         </div>
       </div>
