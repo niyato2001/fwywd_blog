@@ -58,10 +58,6 @@ export default function Home({ posts }) {
           </div>
           <div className='mx-auto flex items-center justify-center gap-1   text-white'>
             <button className='rounded-l-md bg-button-green p-3'>前へ</button>
-            <button className='flex justify-between gap-4 bg-button-green py-3 pl-10 pr-4'>
-              <div>1/26</div>
-              <div>v</div>
-            </button>
             <SelectButton numbers={pageList} />
             <button className='rounded-r-md bg-button-green p-3'>次へ</button>
           </div>
