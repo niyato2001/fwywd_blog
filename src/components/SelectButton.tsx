@@ -9,7 +9,8 @@ export default function SelectButton(props: Props) {
   const router = useRouter();
   return (
     <select
-      className='rounded-md p-4 px-20 text-center text-font-black'
+      className='!ml-1/2 rounded-md p-4 px-20 text-font-black'
+      //stackoverflowhttps://stackoverflow.com/questions/10813528/is-it-possible-to-center-text-in-select-boxを参考
       onChange={(e) => Router.push(e.target.value)}
       defaultValue={router.pathname}
     >
