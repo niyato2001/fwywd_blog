@@ -15,10 +15,10 @@ export default function SelectButton(props: Props) {
       defaultValue={router.pathname}
     >
       <option value='/'>Home</option>
-      {props.numbers.map((number, i) => {
+      {props.numbers.map((number, i, array) => {
         return (
           <option key={i} value={`/blogtables/${number}`}>
-            ページ{number}
+            ページ{number}/{array.length}
           </option>
         );
       })}
