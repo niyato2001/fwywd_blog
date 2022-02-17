@@ -12,8 +12,11 @@ import { getBlocks } from '../../lib/notion/get-blocks';
 import { getDatabase } from '../../lib/notion/get-database';
 import { getPage } from '../../lib/notion/get-page';
 
-export default function Post({ props_page, blocks }) {
+export default function Post({ props_page, blocks, database }) {
   const router = useRouter();
+  const pageIds = database.map((data) => data.id);
+  const number = pageIds.indexOf(router.query.post);
+  console.log(pageIds, number);
   if (!props_page || !blocks) {
     return <div />;
   }
@@ -53,6 +56,15 @@ export default function Post({ props_page, blocks }) {
               <Fragment key={block.id}>{renderBlock(block)}</Fragment>
             ))}
           </section>
+          <div className='mx-auto my-10 text-white'>
+            {Number(number) === 0 ? null : (
+              <button className='float-left rounded-l-md bg-button-green p-3'>前へ</button>
+            )}
+
+            {Number(number) === database.length - 1 ? null : (
+              <button className='float-right rounded-r-md bg-button-green p-3'>次へ</button>
+            )}
+          </div>
         </article>
         <div className='relative max-w-sm rounded-xl bg-white p-5 text-base'>
           {blocks.map((block) => {
