@@ -16,6 +16,16 @@ export default function Page({ params }) {
   //paramsを6個ずつにスライスしてdatabaseを分割
   const pageList: string[] = PageList(params);
   console.log(pageList);
+  const hrefAfter: string = `/blogtables/${String(Number(number) + 1)}`;
+  const hrefBefore: string = `/blogtables/${String(Number(number) - 1)}`;
+  const handleClickBefore = (e) => {
+    e.preventDefault();
+    router.push(hrefBefore);
+  };
+  const handleClickAfter = (e) => {
+    e.preventDefault();
+    router.push(hrefAfter);
+  };
   return (
     <div>
       <Head>
@@ -56,12 +66,16 @@ export default function Page({ params }) {
           </div>
           <div className='mx-auto flex items-center justify-center gap-1   text-white'>
             {Number(number) - 1 === 0 ? null : (
-              <button className='rounded-l-md bg-button-green p-3'>前へ</button>
+              <button className='rounded-l-md bg-button-green p-3' onClick={handleClickBefore}>
+                前へ
+              </button>
             )}
 
             <SelectButton numbers={pageList} />
             {Number(number) === pageList.length ? null : (
-              <button className='rounded-r-md bg-button-green p-3'>次へ</button>
+              <button className='rounded-r-md bg-button-green p-3' onClick={handleClickAfter}>
+                次へ
+              </button>
             )}
           </div>
         </div>
