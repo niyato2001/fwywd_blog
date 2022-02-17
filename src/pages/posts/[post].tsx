@@ -13,6 +13,7 @@ import { getDatabase } from '../../lib/notion/get-database';
 import { getPage } from '../../lib/notion/get-page';
 
 export default function Post({ props_page, blocks }) {
+  const router = useRouter();
   if (!props_page || !blocks) {
     return <div />;
   }
@@ -83,9 +84,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const post = context.params.post;
   //postを{post}としていたために、オブジェクト扱いになってしまっていた。そのため、getPageの引数に入れることができなかった。
   //結局getStaticPropsは名前の通り、propsを作り出してgetStaticPropsがある同ページ内でそのpropsを受け取ることができるようにするもの！
-  const pageAndBlocks = await Promise.all([getPage(post), getBlocks(post)]);
-  const page = pageAndBlocks[0];
-  const blocks = pageAndBlocks[1];
+  //この場合のpostはpage_idとなっている。
+  const pageAndBlocksDatabase = await Promise.all([
+    getPage(post),
+    getBlocks(post),
+    getDatabase(databaseId),
+  ]);
+  const page = pageAndBlocksDatabase[0];
+  const blocks = pageAndBlocksDatabase[1];
+  const database = pageAndBlocksDatabase[2];
   //blocksはparagraphなどのtypeごとの配列
   console.log(page);
   const props_page = {
@@ -124,7 +131,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   console.log(props_page);
   console.log(blocksWithChildren);
   return {
-    props: { props_page, blocks: blocksWithChildren },
+    props: { props_page, blocks: blocksWithChildren, database },
     //pageとデータベースの2つの情報を入れるためprops→props:{props_page,props_blocks}に変更
     revalidate: 10,
   };
