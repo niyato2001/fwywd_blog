@@ -15,6 +15,7 @@ import { getPage } from '../../lib/notion/get-page';
 export default function Post({ props_page, blocks, database }) {
   const router = useRouter();
   const pageIds = database.map((data) => data.id);
+  const titles = database.map((data) => data.properties.title.title[0].text.content);
   const number = pageIds.indexOf(router.query.post);
   const hrefBefore: string = `/posts/${pageIds[number - 1]}`;
   const handleClickBefore = (e) => {
@@ -36,6 +37,7 @@ export default function Post({ props_page, blocks, database }) {
     <div>
       <Head>
         <title>{props_page.title}</title>
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <div className='flex items-start gap-10 bg-bg-gray-light px-20 py-10 leading-7'>
@@ -66,23 +68,34 @@ export default function Post({ props_page, blocks, database }) {
               <Fragment key={block.id}>{renderBlock(block)}</Fragment>
             ))}
           </section>
-          <div className='mx-auto my-10 text-white'>
-            {Number(number) === 0 ? null : (
-              <button
-                className='float-left rounded-l-md bg-button-green p-3'
-                onClick={handleClickBefore}
-              >
-                前へ
-              </button>
+          <div className='mx-auto my-10 flex items-center justify-between gap-4 text-xs text-white'>
+            {Number(number) === 0 ? (
+              <button className='none'></button>
+            ) : (
+              <div className='flex w-1/3 items-center '>
+                <button className=' rounded-l-md bg-button-green p-3' onClick={handleClickBefore}>
+                  ＜
+                </button>
+                <div className='px-2  text-font-black'>{titles[number - 1]}</div>
+              </div>
             )}
-
-            {Number(number) === database.length - 1 ? null : (
-              <button
-                className='float-right rounded-r-md bg-button-green p-3'
-                onClick={handleClickAfter}
-              >
-                次へ
-              </button>
+            <button
+              className='  w-1/5 bg-button-green p-3 px-2 text-center'
+              onClick={() => {
+                router.push('/');
+              }}
+            >
+              一覧ページ
+            </button>
+            {Number(number) === database.length - 1 ? (
+              <button className='none'></button>
+            ) : (
+              <div className='flex w-1/3 items-center'>
+                <div className='px-2  text-font-black'>{titles[number + 1]}</div>
+                <button className=' rounded-r-md bg-button-green p-3' onClick={handleClickAfter}>
+                  ＞
+                </button>
+              </div>
             )}
           </div>
         </article>
