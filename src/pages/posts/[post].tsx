@@ -16,6 +16,16 @@ export default function Post({ props_page, blocks, database }) {
   const router = useRouter();
   const pageIds = database.map((data) => data.id);
   const number = pageIds.indexOf(router.query.post);
+  const hrefBefore: string = `/posts/${pageIds[number - 1]}`;
+  const handleClickBefore = (e) => {
+    e.preventDefault();
+    router.push(hrefBefore);
+  };
+  const hrefAfter: string = `/posts/${pageIds[number + 1]}`;
+  const handleClickAfter = (e) => {
+    e.preventDefault();
+    router.push(hrefAfter);
+  };
   console.log(pageIds, number);
   if (!props_page || !blocks) {
     return <div />;
@@ -58,11 +68,21 @@ export default function Post({ props_page, blocks, database }) {
           </section>
           <div className='mx-auto my-10 text-white'>
             {Number(number) === 0 ? null : (
-              <button className='float-left rounded-l-md bg-button-green p-3'>前へ</button>
+              <button
+                className='float-left rounded-l-md bg-button-green p-3'
+                onClick={handleClickBefore}
+              >
+                前へ
+              </button>
             )}
 
             {Number(number) === database.length - 1 ? null : (
-              <button className='float-right rounded-r-md bg-button-green p-3'>次へ</button>
+              <button
+                className='float-right rounded-r-md bg-button-green p-3'
+                onClick={handleClickAfter}
+              >
+                次へ
+              </button>
             )}
           </div>
         </article>
