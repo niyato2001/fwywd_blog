@@ -39,7 +39,7 @@ export default function Home({ posts }) {
             <div className='inline-block rounded-md border-2 border-button-border px-3 py-1 text-xs text-font-green'>
               プログラミング
             </div>
-            <div className='inline-block font-bold text-font-black'>1/26 ページ</div>
+            <div className='inline-block font-bold text-font-black'>記事一覧</div>
           </div>
           <div className='grid grid-cols-3 grid-rows-2 gap-10 py-16'>
             {posts.map((post, i) => {
