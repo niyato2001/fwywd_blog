@@ -81,7 +81,7 @@ export const renderBlock = (block) => {
       );
     case 'heading_3':
       return (
-        <h4 className='text-lg'>
+        <h4 className='text-md border-b border-font-black px-5 py-1'>
           <Text text={value.text} />
         </h4>
       );
