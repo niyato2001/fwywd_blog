@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Fragment } from 'react';
 import { Contents } from './Contents';
 import { Text } from './Text';
@@ -114,15 +115,19 @@ export const renderBlock = (block) => {
       );
     case 'child_page':
       return <p>{value.title}</p>;
-    //      case 'image':
-    //        const src = value.type === 'external' ? value.external.url : value.file.url;
-    //        const caption = value.caption ? value.caption[0].plain_text : '';
-    //        return (
-    //          <figure>
-    //            <Image src={src} alt={caption} />
-    //            {caption && <figcaption>{caption}</figcaption>}
-    //          </figure>
-    //        );
+    case 'image':
+      const src = value.type === 'external' ? value.external.url : value.file.url;
+      const caption = value.caption ? value.caption[0]?.plain_text : '';
+      return (
+        <figure>
+          <div className='relative h-60 '>
+            <Image src={src} alt={caption} layout='fill' objectFit='contain' />
+          </div>
+          {caption && (
+            <figcaption className='text-center text-sm text-bg-gray-dark'>{caption}</figcaption>
+          )}
+        </figure>
+      );
     default:
       //      return `❌ Unsupported block (${
       //        type === 'unsupported' ? 'unsupported by Notion API' : type
