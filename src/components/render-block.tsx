@@ -120,13 +120,22 @@ export const renderBlock = (block) => {
       const caption = value.caption ? value.caption[0]?.plain_text : '';
       return (
         <figure>
-          <div className='relative h-60 '>
+          <div className='relative my-2 h-60 '>
             <Image src={src} alt={caption} layout='fill' objectFit='contain' />
           </div>
           {caption && (
             <figcaption className='text-center text-sm text-bg-gray-dark'>{caption}</figcaption>
           )}
         </figure>
+      );
+    case 'code':
+      const language: string = value.language;
+      const code: string = value.text[0]?.text.content;
+      return (
+        <div className='my-5 bg-gray-100 pb-5 '>
+          <p className='text-xs text-bg-gray-dark hover:block hover:text-left'>{language}</p>
+          <p className='mx-10 my-5 whitespace-pre-wrap text-sm'>{code}</p>
+        </div>
       );
     default:
       //      return `❌ Unsupported block (${
