@@ -46,6 +46,7 @@ export default function Post({ props_page, blocks, database }) {
           <FontAwesomeIcon icon={faFacebook} width={32} height={32} />
           {/*Imageタグのほうが処理早ければそちらを利用*/}
         </div>
+        {/*左側のカラム*/}
         <article className='max-w-4xl rounded-xl bg-white p-10'>
           <h1 className='text-3xl font-bold'>{props_page.title}</h1>
           <div className='flex items-center justify-items-start gap-4 py-10'>
@@ -99,6 +100,7 @@ export default function Post({ props_page, blocks, database }) {
             )}
           </div>
         </article>
+        {/*記事本文のカラム*/}
         <div className='relative max-w-sm rounded-xl bg-white p-5 text-base'>
           {blocks.map((block) => {
             if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
@@ -120,6 +122,7 @@ export default function Post({ props_page, blocks, database }) {
             </Link>
           </div>
         </div>
+        {/*目次のカラム*/}
       </div>
     </div>
   );
