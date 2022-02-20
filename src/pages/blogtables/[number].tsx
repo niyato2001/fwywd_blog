@@ -60,6 +60,7 @@ export default function Page({ params }) {
                     return tag.name;
                   })}
                   href={post.id}
+                  image={post.properties.image?.files[0].file.url}
                 />
               );
             })}
