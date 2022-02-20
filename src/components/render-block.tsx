@@ -76,13 +76,13 @@ export const renderBlock = (block) => {
       );
     case 'heading_2':
       return (
-        <h3 className='bg-gray-100 p-3 text-lg'>
+        <h3 className='my-2 bg-gray-100 p-3 text-lg'>
           <Text text={value.text} />
         </h3>
       );
     case 'heading_3':
       return (
-        <h4 className='text-md border-b border-font-black px-5 py-1'>
+        <h4 className='text-md my-1 border-b border-font-black px-5'>
           <Text text={value.text} />
         </h4>
       );
@@ -133,14 +133,16 @@ export const renderBlock = (block) => {
       const code: string = value.text[0]?.text.content;
       return (
         <div className='my-5 bg-gray-100 pb-5 '>
-          <p className='text-xs text-bg-gray-dark hover:block hover:text-left'>{language}</p>
+          <p className='pl-2 text-xs text-bg-gray-dark hover:block hover:text-left'>{language}</p>
           <p className='mx-10 my-5 whitespace-pre-wrap text-sm'>{code}</p>
         </div>
       );
-    default:
-      //      return `❌ Unsupported block (${
-      //        type === 'unsupported' ? 'unsupported by Notion API' : type
-      //      })`;
+    case 'divider':
       return null;
+    default:
+      return `❌ Unsupported block (${
+        type === 'unsupported' ? 'unsupported by Notion API' : type
+      })`;
+    //return null;
   }
 };
