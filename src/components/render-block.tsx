@@ -140,7 +140,11 @@ export const renderBlock = (block) => {
       );
     case 'embed':
       const link = value.url;
-      return <Link href={link} />;
+      return (
+        <Link href={link}>
+          <a>埋め込みリンク</a>
+        </Link>
+      );
     case 'divider':
       return null;
     default:
