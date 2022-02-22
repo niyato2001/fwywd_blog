@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 
-export async function meta(link) {
-  const meta = await fetch(link)
+export async function getOgpMeta(link) {
+  const ogpMeta = await fetch(link)
     .then((res) => res.text())
     .then((text) => {
       const metaData = {
@@ -31,5 +31,5 @@ export async function meta(link) {
     .catch((e) => {
       console.log(e);
     });
-  return meta;
+  return ogpMeta;
 }
