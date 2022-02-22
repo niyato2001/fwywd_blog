@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import { Contents } from './Contents';
+import LinkCard from './LinkCard';
 import { Text } from './Text';
 
 export const renderBlock = (block) => {
@@ -139,13 +140,17 @@ export const renderBlock = (block) => {
         </div>
       );
     case 'embed':
-      const link = value.url;
-      return (
-        <Link href={link}>
-          <a>埋め込みリンク</a>
-        </Link>
-      );
+      const { ogpMeta } = value;
+      const { url, title, description, image } = ogpMeta;
+      if (ogpMeta) {
+        return <LinkCard url={url} title={title} description={description} image={image} />;
+      }
+      return `❌ Unsupported block (${
+        type === 'unsupported' ? 'unsupported by Notion API' : type
+      })`;
     case 'divider':
+      return null;
+    case 'table_of_contents':
       return null;
     default:
       return `❌ Unsupported block (${
