@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Fragment } from 'react';
 import { Contents } from './Contents';
 import { Text } from './Text';
@@ -137,6 +138,9 @@ export const renderBlock = (block) => {
           <p className='mx-10 my-5 whitespace-pre-wrap text-sm'>{code}</p>
         </div>
       );
+    case 'embed':
+      const link = value.url;
+      return <Link href={link} />;
     case 'divider':
       return null;
     default:
