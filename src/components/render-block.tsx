@@ -119,15 +119,20 @@ export const renderBlock = (block) => {
       return <p>{value.title}</p>;
     case 'image':
       const src = value.type === 'external' ? value.external.url : value.file.url;
-      const caption = value.caption ? value.caption[0]?.plain_text : '';
+      const caption = value.caption ? value.caption.map((caption) => caption?.plain_text) : '';
       return (
         <figure>
           <div className='relative my-2 h-60 '>
             <Image src={src} alt={caption} layout='fill' objectFit='contain' />
           </div>
-          {caption && (
-            <figcaption className='text-center text-sm text-bg-gray-dark'>{caption}</figcaption>
-          )}
+          {caption &&
+            caption.map((caption) => {
+              return (
+                <figcaption key={id} className='text-center text-sm text-bg-gray-dark'>
+                  {caption}
+                </figcaption>
+              );
+            })}
         </figure>
       );
     case 'code':
