@@ -10,6 +10,7 @@ import { renderBlock } from '../../components/render-block';
 import { renderBlockContents } from '../../components/render-block-contents';
 import { getBlocks } from '../../lib/notion/get-blocks';
 import { getDatabase } from '../../lib/notion/get-database';
+import { getOgpMeta } from '../../lib/notion/get-embedOGP';
 import { getPage } from '../../lib/notion/get-page';
 
 export default function Post({ props_page, blocks, database }) {
@@ -170,16 +171,42 @@ export const getStaticProps: GetStaticProps = async (context) => {
       block[block.type]['children'] = childBlocks.find((x) => x.id === block.id)?.children;
       //xはblocks.filterで作られたblock.has_childrenがtrueのみのblockによる配列の要素（idとchildren）
       //childBlocks=[{id:block.id,children:await getBlocks(block.id),{id:...,children:...},...]
-      //x.idはchildBlocksで呼び出されているblock.idであり、あとのblock.idはblocksSithChildrenで呼び出されているblock.id
+      //x.idはchildBlocksで呼び出されているblock.idであり、あとのblock.idはblocksで呼び出されているblock.id
       //"?."はオプショナルチェーン演算子とよび、childblocks.find()がある場合にchildrenを呼び出す。childblocks.find()がnullの場合はundefinedを返す。
     }
     return block;
     //has_childrenがtrueのものは、childrenが加えられた状態でfalseのものはそのままreturnされる。
   });
+  const ogpMeta = await Promise.all(
+    blocksWithChildren
+      .filter((block) => block.embed)
+      //block.embedがtrueの要素のみの配列に変換
+      .map(async (block) => {
+        //子ブロックがある場合は、内容がすべて表示されるわけではないので、追加でgetOgpMetaする必要がある
+        return {
+          id: block.id,
+          ogpMeta: await getOgpMeta(block.embed.url),
+        };
+      }),
+  );
+  const blocksWithMeta = blocksWithChildren.map((block) => {
+    // ogpMeta情報を加える
+    if (block?.embed && !block?.embed?.ogpMeta) {
+      //block.embedがtrueだが、embed.ogpMetaオブジェクトを持っていない場合にogpMetaオブジェクトをつくる！
+      block.embed.ogpMeta = ogpMeta.find((x) => x.id === block.id)?.ogpMeta;
+      //xはblocks.filterで作られたblock.embedがtrueのみのblockによる配列の要素（idとogpMeta）
+      //ogpMeta=[{id:block.id,ogpMeta:await getOgpMeta(block.embed.url),{id:...,ogpMeta:...},...]
+      //x.idはogpMetaで呼び出されているblock.idであり、あとのblock.idはblocksWithChildrenで呼び出されているblock.id
+      //"?."はオプショナルチェーン演算子とよび、childblocks.find()がある場合にchildrenを呼び出す。childblocks.find()がnullの場合はundefinedを返す。
+    }
+    return block;
+    //embedがtrueのものは、embed.ogpMetaが加えられた状態でfalseのものはそのままreturnされる。
+  });
+
   console.log(props_page);
-  console.log(blocksWithChildren);
+  console.log(blocksWithMeta);
   return {
-    props: { props_page, blocks: blocksWithChildren, database },
+    props: { props_page, blocks: blocksWithMeta, database },
     //pageとデータベースの2つの情報を入れるためprops→props:{props_page,props_blocks}に変更
     revalidate: 10,
   };
