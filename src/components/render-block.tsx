@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import { Contents } from './Contents';
 import LinkCard from './LinkCard';
+import { Table } from './Table';
 import { Text } from './Text';
 
 export const renderBlock = (block) => {
@@ -153,6 +154,20 @@ export const renderBlock = (block) => {
       return `❌ Unsupported block (${
         type === 'unsupported' ? 'unsupported by Notion API' : type
       })`;
+    case 'table':
+      return (
+        <table className='w-full table-fixed border-2'>
+          {value.children?.map((block) => (
+            <Fragment key={block.id}>{renderBlock(block)}</Fragment>
+          ))}
+        </table>
+      );
+    case 'table_row':
+      return (
+        <tr className='border-2'>
+          <Table table={value.cells} />
+        </tr>
+      );
     case 'divider':
       return null;
     case 'table_of_contents':
