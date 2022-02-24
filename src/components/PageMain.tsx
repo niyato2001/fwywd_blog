@@ -30,10 +30,8 @@ export default function PageMain(props): JSX.Element {
             );
           })}
         </div>
-        <div className='mx-auto flex items-center justify-center gap-1   text-white'>
-          <button className='rounded-l-md bg-button-green p-3'>前へ</button>
+        <div className='mx-auto flex items-center justify-center gap-1  text-white'>
           <SelectButton numbers={pageList} />
-          <button className='rounded-r-md bg-button-green p-3'>次へ</button>
         </div>
       </div>
     </div>
