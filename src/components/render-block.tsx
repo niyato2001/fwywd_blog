@@ -154,6 +154,22 @@ export const renderBlock = (block) => {
       return `❌ Unsupported block (${
         type === 'unsupported' ? 'unsupported by Notion API' : type
       })`;
+    case 'bookmark':
+      const { target } = value;
+
+      if (target) {
+        return (
+          <LinkCard
+            url={target.url}
+            title={target.title}
+            description={target.description}
+            image={target.image}
+          />
+        );
+      }
+      return `❌ Unsupported block (${
+        type === 'unsupported' ? 'unsupported by Notion API' : type
+      })`;
     case 'table':
       return (
         <table className='w-full table-fixed border-2'>
