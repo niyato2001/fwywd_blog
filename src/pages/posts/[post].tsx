@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import { renderBlock } from '../../components/render-block';
 import { renderBlockContents } from '../../components/render-block-contents';
+
 import { getBlocks } from '../../lib/notion/get-blocks';
 import { getDatabase } from '../../lib/notion/get-database';
 import { getOgpMeta } from '../../lib/notion/get-embedOGP';
@@ -177,6 +178,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return block;
     //has_childrenがtrueのものは、childrenが加えられた状態でfalseのものはそのままreturnされる。
   });
+
   const ogpMeta = await Promise.all(
     blocksWithChildren
       .filter((block) => block.embed)
@@ -203,10 +205,36 @@ export const getStaticProps: GetStaticProps = async (context) => {
     //embedがtrueのものは、embed.ogpMetaが加えられた状態でfalseのものはそのままreturnされる。
   });
 
+  const ogpBookmark = await Promise.all(
+    blocksWithMeta
+      .filter((block) => block.bookmark)
+      //block.bookmarkがtrueの要素のみの配列に変換
+      .map(async (block) => {
+        //子ブロックがある場合は、内容がすべて表示されるわけではないので、追加でgetOgpMetaする必要がある
+        return {
+          id: block.id,
+          target: await getOgpMeta(block.bookmark.url),
+        };
+      }),
+  );
+  const blocksWithBookmark = blocksWithMeta.map((block) => {
+    // ogpMeta情報を加える
+    if (block?.bookmark && !block?.bookmark?.target) {
+      //block.embedがtrueだが、embed.ogpMetaオブジェクトを持っていない場合にogpMetaオブジェクトをつくる！
+      block.bookmark.target = ogpBookmark.find((x) => x.id === block.id)?.target;
+      //xはblocks.filterで作られたblock.embedがtrueのみのblockによる配列の要素（idとogpMeta）
+      //ogpMeta=[{id:block.id,ogpMeta:await getOgpMeta(block.embed.url),{id:...,ogpMeta:...},...]
+      //x.idはogpMetaで呼び出されているblock.idであり、あとのblock.idはblocksWithChildrenで呼び出されているblock.id
+      //"?."はオプショナルチェーン演算子とよび、childblocks.find()がある場合にchildrenを呼び出す。childblocks.find()がnullの場合はundefinedを返す。
+    }
+    return block;
+    //embedがtrueのものは、embed.ogpMetaが加えられた状態でfalseのものはそのままreturnされる。
+  });
+
   console.log(props_page);
   console.log(blocksWithMeta);
   return {
-    props: { props_page, blocks: blocksWithMeta, database },
+    props: { props_page, blocks: blocksWithBookmark, database },
     //pageとデータベースの2つの情報を入れるためprops→props:{props_page,props_blocks}に変更
     revalidate: 10,
   };

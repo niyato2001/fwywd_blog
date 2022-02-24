@@ -14,16 +14,22 @@ export async function getOgpMeta(link) {
       const metas = doms.window.document.getElementsByTagName('meta');
       for (let i = 0; i < metas.length; i++) {
         let pro = metas[i].getAttribute('property');
+        let con = metas[i].getAttribute('content');
         if (typeof pro == 'string') {
           if (pro.match('title')) metaData.title = metas[i].getAttribute('content');
           if (pro.match('description')) metaData.description = metas[i].getAttribute('content');
-          if (pro.match('image')) metaData.image = metas[i].getAttribute('content');
+          if (pro.match('image') && con.match('http'))
+            metaData.image = metas[i].getAttribute('content');
+          if (pro.match('og:title')) metaData.title = metas[i].getAttribute('content');
+          if (pro.match('og:description')) metaData.description = metas[i].getAttribute('content');
         }
+
         pro = metas[i].getAttribute('name');
         if (typeof pro == 'string') {
           if (pro.match('title')) metaData.title = metas[i].getAttribute('content');
           if (pro.match('description')) metaData.description = metas[i].getAttribute('content');
-          if (pro.match('image')) metaData.image = metas[i].getAttribute('content');
+          if (pro.match('image') && con.match('http'))
+            metaData.image = metas[i].getAttribute('content');
         }
       }
       return metaData;
