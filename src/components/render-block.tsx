@@ -159,6 +159,8 @@ export const renderBlock = (block) => {
         <table className='w-full table-fixed border-2'>
           {value.children?.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
+            //はじめはこのファイルでtable_rowの分岐をつくらずそのまま実装しようとしていたが、そもそものvalue=block[block.type]なので
+            //再度子ブロックごとにrenderBlock()して分岐させないと実装できない！
           ))}
         </table>
       );
