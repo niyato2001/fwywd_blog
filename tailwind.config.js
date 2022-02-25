@@ -16,6 +16,7 @@ module.exports = {
       white: colors.white,
       gray: colors.gray,
       red: colors.red,
+      blue: colors.blue,
     },
     screens: {
       laptop: '1440px',
