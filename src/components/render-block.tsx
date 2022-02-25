@@ -111,8 +111,8 @@ export const renderBlock = (block) => {
           <summary>
             <Text text={value.text} />
           </summary>
-          {value.children?.map((block) => (
-            <Fragment key={block.id}>{renderBlock(block)}</Fragment>
+          {value.children?.map((block, i) => (
+            <Fragment key={i}>{renderBlock(block)}</Fragment>
           ))}
         </details>
       );
@@ -127,9 +127,9 @@ export const renderBlock = (block) => {
             <Image src={src} alt={caption} layout='fill' objectFit='contain' />
           </div>
           {caption &&
-            caption.map((caption) => {
+            caption.map((caption, i) => {
               return (
-                <figcaption key={id} className='text-center text-sm text-bg-gray-dark'>
+                <figcaption key={i} className='text-center text-sm text-bg-gray-dark'>
                   {caption}
                 </figcaption>
               );
@@ -190,6 +190,14 @@ export const renderBlock = (block) => {
       return null;
     case 'table_of_contents':
       return null;
+    case 'child_database':
+      return (
+        <div className='text-extrabold my-2  text-center text-red-500'>
+          <span className='rounded-md border-2 p-3'>
+            child databaseはAPIでサポートされていないため表示できません。
+          </span>
+        </div>
+      );
     default:
       return `❌ Unsupported block (${
         type === 'unsupported' ? 'unsupported by Notion API' : type
