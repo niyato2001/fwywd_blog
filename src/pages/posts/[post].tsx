@@ -67,8 +67,8 @@ export default function Post({ props_page, blocks, database }) {
             </div>
           </div>
           <section>
-            {blocks.map((block) => (
-              <Fragment key={block.id}>{renderBlock(block)}</Fragment>
+            {blocks.map((block, i) => (
+              <Fragment key={i}>{renderBlock(block)}</Fragment>
             ))}
           </section>
           <div className='mx-auto my-10 flex items-center justify-between gap-4 text-xs text-white'>
@@ -104,10 +104,10 @@ export default function Post({ props_page, blocks, database }) {
         </article>
         {/*記事本文のカラム*/}
         <div className='relative max-w-sm rounded-xl bg-white p-5 text-base'>
-          {blocks.map((block) => {
+          {blocks.map((block, i) => {
             if (block.paragraph?.text[0]?.text.content.match(/目次/)) {
               return (
-                <div>
+                <div key={i}>
                   <div className='laptop:z-1 laptop:-top-0.75 hidden laptop:absolute laptop:flex laptop:w-11/12 laptop:items-center laptop:justify-start laptop:gap-3 laptop:bg-white'>
                     <div>{block.paragraph.text[0].text.content}</div>
                     <div className='w-4/5 border-t-2 border-bg-gray-dark'></div>
@@ -116,7 +116,7 @@ export default function Post({ props_page, blocks, database }) {
                 </div>
               );
             }
-            return <Fragment key={block.id}>{renderBlockContents(block)}</Fragment>;
+            return <Fragment key={i}>{renderBlockContents(block)}</Fragment>;
           })}
           <div className='border-t border-bg-gray-dark pt-4 text-sm'>
             <Link href='/'>
