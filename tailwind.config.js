@@ -15,6 +15,7 @@ module.exports = {
       'button-border': '#c5eaea',
       white: colors.white,
       gray: colors.gray,
+      red: colors.red,
     },
     screens: {
       laptop: '1440px',
