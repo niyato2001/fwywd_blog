@@ -136,6 +136,24 @@ export const renderBlock = (block) => {
             })}
         </figure>
       );
+    case 'video':
+      const video_src = value.type === 'external' ? value.external.url : value.file.url;
+      const video_caption = value.caption
+        ? value.caption.map((caption) => caption?.plain_text)
+        : '';
+      return (
+        <figure>
+          <video src={video_src} controls muted autoPlay />
+          {video_caption &&
+            video_caption.map((caption, i) => {
+              return (
+                <figcaption key={i} className='text-center text-sm text-bg-gray-dark'>
+                  {caption}
+                </figcaption>
+              );
+            })}
+        </figure>
+      );
     case 'code':
       const language: string = value.language;
       const code: string = value.text[0]?.text.content;
@@ -156,7 +174,6 @@ export const renderBlock = (block) => {
       })`;
     case 'bookmark':
       const { target } = value;
-
       if (target) {
         return (
           <LinkCard
