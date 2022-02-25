@@ -154,6 +154,17 @@ export const renderBlock = (block) => {
             })}
         </figure>
       );
+    case 'quote':
+      const { text } = value;
+      return (
+        <div className='flex w-full flex-row justify-start'>
+          <div className='w-3 bg-bg-gray-light'></div>
+          <div className='w-1 bg-bg-black'></div>
+          <div className='bg-bg-gray-light text-font-black'>
+            <p>quote</p>
+          </div>
+        </div>
+      );
     case 'code':
       const language: string = value.language;
       const code: string = value.text[0]?.text.content;
