@@ -171,6 +171,7 @@ export const renderBlock = (block) => {
       );
     case 'code':
       const language: string = value.language;
+      //group hoverやinvisibleを選択することを検討（code blockをhover時にプログラミング言語を表示させたい！）
       return (
         <div>
           <div className=' bg-font-black pb-5'>
