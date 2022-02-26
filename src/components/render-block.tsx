@@ -123,7 +123,7 @@ export const renderBlock = (block) => {
       const caption = value.caption ? value.caption.map((caption) => caption?.plain_text) : '';
       return (
         <figure>
-          <div className='relative my-2 h-60 '>
+          <div className='relative  h-96 '>
             <Image src={src} alt={caption} layout='fill' objectFit='contain' />
           </div>
           {caption &&
@@ -171,11 +171,19 @@ export const renderBlock = (block) => {
       );
     case 'code':
       const language: string = value.language;
-      const code: string = value.text[0]?.text.content;
       return (
-        <div className='my-5 bg-gray-100 pb-5 '>
-          <p className='pl-2 text-xs text-bg-gray-dark hover:block hover:text-left'>{language}</p>
-          <p className='mx-10 my-5 whitespace-pre-wrap text-sm'>{code}</p>
+        <div>
+          <div className=' bg-font-black pb-5'>
+            <p className='pl-3 pt-2  text-xs text-bg-gray-dark opacity-0 hover:opacity-100 '>
+              {language}
+            </p>
+            <p className='mx-10 my-5 whitespace-pre-line text-sm leading-6 text-white'>
+              <Text text={value.text} />
+            </p>
+          </div>
+          <p className='text-bg-gray-dark'>
+            <Text text={value.caption} />
+          </p>
         </div>
       );
     case 'embed':
