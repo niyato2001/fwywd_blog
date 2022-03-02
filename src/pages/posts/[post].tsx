@@ -222,19 +222,37 @@ export const getStaticProps: GetStaticProps = async (context) => {
     if (block?.bookmark && !block?.bookmark?.target) {
       //block.embedがtrueだが、embed.ogpMetaオブジェクトを持っていない場合にogpMetaオブジェクトをつくる！
       block.bookmark.target = ogpBookmark.find((x) => x.id === block.id)?.target;
-      //xはblocks.filterで作られたblock.embedがtrueのみのblockによる配列の要素（idとogpMeta）
-      //ogpMeta=[{id:block.id,ogpMeta:await getOgpMeta(block.embed.url),{id:...,ogpMeta:...},...]
-      //x.idはogpMetaで呼び出されているblock.idであり、あとのblock.idはblocksWithChildrenで呼び出されているblock.id
-      //"?."はオプショナルチェーン演算子とよび、childblocks.find()がある場合にchildrenを呼び出す。childblocks.find()がnullの場合はundefinedを返す。
+    }
+    return block;
+  });
+
+  const childDatabaseId = await Promise.all(
+    blocksWithBookmark
+      .filter((block) => block.child_database)
+      //block.child_databaseがtrueの要素のみの配列に変換
+      .map(async (block) => {
+        return {
+          id: block.id,
+          databaseInformation: await getDatabase(block.id),
+        };
+      }),
+  );
+
+  const blocksWithDatabaseId = blocksWithBookmark.map((block) => {
+    // child_database情報を加える
+    if (block.child_database && !block.child_database.databaseInformation) {
+      //block.child_databaseがtrueだが、embed.ogpMetaオブジェクトを持っていない場合にogpMetaオブジェクトをつくる！
+      block.child_database.databaseInformation = childDatabaseId.find(
+        (x) => x.id === block.id,
+      ).databaseInformation;
     }
     return block;
     //embedがtrueのものは、embed.ogpMetaが加えられた状態でfalseのものはそのままreturnされる。
   });
 
-  console.log(props_page);
-  console.log(blocksWithMeta);
+  console.log(blocksWithDatabaseId);
   return {
-    props: { props_page, blocks: blocksWithBookmark, database },
+    props: { props_page, blocks: blocksWithDatabaseId, database },
     //pageとデータベースの2つの情報を入れるためprops→props:{props_page,props_blocks}に変更
     revalidate: 10,
   };
@@ -243,7 +261,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const databaseId = process.env.NOTION_DATABASE_ID;
 export const getStaticPaths: GetStaticPaths = async () => {
   const database = await getDatabase(databaseId);
-  //databaseはresponse.resultsと同様のオブジェクト
+  //databaseはresponse.resultsと同様のオブジェクトで配列
   //getStaticPathsは名前の通りpathsを作り出す。pathsはcontextとしてgetStaticPropsで受け取ることが可能。
   const paths = database.map((post) => ({
     params: { post: post.id.toString() },
