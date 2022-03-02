@@ -233,10 +233,25 @@ export const renderBlock = (block) => {
       return null;
     case 'child_database':
       return (
-        <div className='text-extrabold my-2  text-center text-red-500'>
-          <span className='rounded-md border-2 p-3'>
-            child databaseはAPIでサポートされていないため表示できません。
-          </span>
+        <div>
+          <p className='font-bold'>【{value.title}】</p>
+          <table className='w-full table-fixed border-2'>
+            {value.databaseInformation.map((data, i) => {
+              return (
+                <tr key={i} className='border-2'>
+                  <td className='border-2'>
+                    <Text text={data.properties['名前'].title} />
+                  </td>
+                  <td className='border-2'>{data.properties['日付'].date.start}</td>
+                </tr>
+              );
+            })}
+          </table>
+          <div className='text-extrabold my-2  text-center text-red-500'>
+            <span className='rounded-md border-2 p-3'>
+              child databaseはAPIでサポートされていないため表示できません。
+            </span>
+          </div>
         </div>
       );
     default:
