@@ -174,8 +174,8 @@ export const renderBlock = (block) => {
       //group hoverやinvisibleを選択することを検討（code blockをhover時にプログラミング言語を表示させたい！）
       return (
         <div>
-          <div className=' bg-font-black pb-5'>
-            <p className='pl-3 pt-2  text-xs text-bg-gray-dark opacity-0 hover:opacity-100 '>
+          <div className=' group bg-font-black pb-5'>
+            <p className='pl-3 pt-2  text-xs text-bg-gray-dark opacity-0 group-hover:opacity-100 '>
               {language}
             </p>
             <p className='mx-10 my-5 whitespace-pre-line text-sm leading-6 text-white'>
