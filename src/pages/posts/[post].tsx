@@ -238,18 +238,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
       }),
   );
 
-  childDatabaseId[0].databaseInformation.sort(function (a, b) {
+  childDatabaseId[0]?.databaseInformation?.sort(function (a, b) {
     return a.properties['日付'].date.start < b.properties['日付'].date.start ? -1 : 1;
   });
   //apiでのsortは難しかったのでjavascriptのなかでsortしてdatabaseInformationを日付順にsort
 
   const blocksWithDatabaseId = blocksWithBookmark.map((block) => {
     // child_database情報を加える
-    if (block.child_database && !block.child_database.databaseInformation) {
+    if (block.child_database && !block.child_database?.databaseInformation) {
       //block.child_databaseがtrueだが、embed.ogpMetaオブジェクトを持っていない場合にogpMetaオブジェクトをつくる！
       block.child_database.databaseInformation = childDatabaseId.find(
         (x) => x.id === block.id,
-      ).databaseInformation;
+      )?.databaseInformation;
     }
     return block;
     //embedがtrueのものは、embed.ogpMetaが加えられた状態でfalseのものはそのままreturnされる。
