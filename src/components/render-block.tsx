@@ -213,7 +213,7 @@ export const renderBlock = (block) => {
       })`;
     case 'table':
       return (
-        <table className='w-full table-fixed border-2'>
+        <table className='w-full table-fixed '>
           {value.children?.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
             //はじめはこのファイルでtable_rowの分岐をつくらずそのまま実装しようとしていたが、そもそものvalue=block[block.type]なので
@@ -223,7 +223,7 @@ export const renderBlock = (block) => {
       );
     case 'table_row':
       return (
-        <tr className='border-2'>
+        <tr className=''>
           <Table table={value.cells} />
         </tr>
       );
@@ -233,25 +233,20 @@ export const renderBlock = (block) => {
       return null;
     case 'child_database':
       return (
-        <div>
+        <div className='text-center'>
           <p className='font-bold'>【{value.title}】</p>
-          <table className='w-full table-fixed border-2'>
+          <table className='mx-auto my-2 w-2/3 table-fixed border-y-2'>
             {value.databaseInformation.map((data, i) => {
               return (
-                <tr key={i} className='border-2'>
-                  <td className='border-2'>
+                <tr key={i}>
+                  <td>
                     <Text text={data.properties['名前'].title} />
                   </td>
-                  <td className='border-2'>{data.properties['日付'].date.start}</td>
+                  <td className='w-1/2 text-right'>{data.properties['日付'].date.start}</td>
                 </tr>
               );
             })}
           </table>
-          <div className='text-extrabold my-2  text-center text-red-500'>
-            <span className='rounded-md border-2 p-3'>
-              child databaseはAPIでサポートされていないため表示できません。
-            </span>
-          </div>
         </div>
       );
     default:
