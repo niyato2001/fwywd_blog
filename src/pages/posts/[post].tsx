@@ -238,6 +238,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
       }),
   );
 
+  childDatabaseId[0].databaseInformation.sort(function (a, b) {
+    return a.properties['日付'].date.start < b.properties['日付'].date.start ? -1 : 1;
+  });
+  //apiでのsortは難しかったのでjavascriptのなかでsortしてdatabaseInformationを日付順にsort
+
   const blocksWithDatabaseId = blocksWithBookmark.map((block) => {
     // child_database情報を加える
     if (block.child_database && !block.child_database.databaseInformation) {
@@ -250,7 +255,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     //embedがtrueのものは、embed.ogpMetaが加えられた状態でfalseのものはそのままreturnされる。
   });
 
-  console.log(blocksWithDatabaseId);
+  console.log(childDatabaseId[0]);
   return {
     props: { props_page, blocks: blocksWithDatabaseId, database },
     //pageとデータベースの2つの情報を入れるためprops→props:{props_page,props_blocks}に変更
