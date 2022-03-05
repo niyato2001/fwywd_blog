@@ -7,12 +7,15 @@ interface Props {
 
 export default function SelectButton(props: Props) {
   const router = useRouter();
+  console.log(router.asPath);
   return (
     <select
       className='!ml-1/2  rounded-md bg-button-green p-3 px-20 text-white'
       //stackoverflowhttps://stackoverflow.com/questions/10813528/is-it-possible-to-center-text-in-select-boxを参考
       onChange={(e) => Router.push(e.target.value)}
-      defaultValue={router.pathname}
+      defaultValue={decodeURI(router.asPath)}
+      //router.pathnameだと/blogtables/[number]としかurlがとれないのでasPathとして/blogtables/1ととれるように変更。
+      //decodeURIを追加して文字化けを予防
     >
       <option value='/' className='bg-white text-font-black'>
         Home
