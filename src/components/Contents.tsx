@@ -1,9 +1,25 @@
-export const Contents = ({ text }) => {
+interface Text {
+  type: string;
+  text: { content: string; link: { url: string } | null };
+  annotations: {
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+  };
+  plain_text: string;
+  href: string | null;
+}
+
+export const Contents = (text: Text[]) => {
+  //TypeScript化の時点で引数を({text})から(text:Text[])に変更したのでエラー発生するか確認
   //text=[]でtextは配列オブジェクト！
   if (!text) {
     return null;
   }
-  return text.map((value, i) => {
+  return text.map((value: Text, i: number) => {
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
