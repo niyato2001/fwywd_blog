@@ -1,9 +1,26 @@
-export const Text = ({ text }) => {
+interface Text {
+  text: Value[];
+}
+//二次元配列の型定義
+
+interface Value {
+  text: { content: string; link: { url: string } | null };
+  annotations: {
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+  };
+}
+
+export const Text = ({ text }: Text) => {
   //text=[]でtextは配列オブジェクト！
   if (!text) {
     return null;
   }
-  return text.map((value, i) => {
+  return text.map((value: Value, i: number) => {
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
