@@ -1,9 +1,26 @@
-export const Table = ({ table }) => {
+interface Table {
+  table: Value[][];
+}
+//二次元配列の型定義
+
+interface Value {
+  text: { content: string; link: { url: string } | null };
+  annotations: {
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+  };
+}
+
+export const Table = ({ table }: Table) => {
   //table=[{列1},{列2}...]でtableは配列オブジェクト！
   if (!table) {
     return null;
   }
-  return table.map((value, i) => {
+  return table.map((value, i: number) => {
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
