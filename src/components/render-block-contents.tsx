@@ -1,4 +1,3 @@
-import { Contents } from './Contents';
 import Text from './Text';
 
 interface Block {
