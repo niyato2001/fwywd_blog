@@ -1,7 +1,96 @@
 import { Contents } from './Contents';
-import { Text } from './Text';
+import Text from './Text';
 
-export const renderBlockContents = (block) => {
+interface Block {
+  [key: string]: any;
+  object: string;
+  id: string;
+  created_time: Date;
+  last_edited_time: Date;
+  created_by: CreatedBy;
+  last_edited_by: LastEditedBy;
+  has_children: boolean;
+  archived: boolean;
+  type: string;
+  paragraph: Paragraph;
+  toggle: Toggle;
+  heading_1: Heading1;
+  image: Image;
+  child_database: ChildDatabase;
+  numbered_list_item: NumberedListItem;
+  table: Table;
+  heading_2: Heading2;
+  heading_3: Heading3;
+}
+
+interface CreatedBy {
+  object: string;
+  id: string;
+}
+
+interface LastEditedBy {
+  object: string;
+  id: string;
+}
+
+interface Paragraph {
+  text: Text[];
+}
+
+interface Toggle {
+  text: Text[];
+}
+
+interface Heading1 {
+  text: Text[];
+}
+
+interface Heading2 {
+  text: Text[];
+}
+
+interface Heading3 {
+  text: Text[];
+}
+
+interface NumberedListItem {
+  text: Text[];
+}
+
+interface Table {
+  table_width: number;
+  has_column_header: boolean;
+  has_row_header: boolean;
+}
+
+interface Image {
+  caption: Text[];
+  type: string;
+  file: File;
+}
+
+interface File {
+  url: string;
+  expiry_time: Date;
+}
+
+interface ChildDatabase {
+  title: string;
+}
+
+interface Text {
+  text: { content: string; link: { url: string } | null };
+  annotations: {
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+  };
+}
+
+export const renderBlockContents = (block: Block) => {
   //blockはオブジェクト
   //block={
   //{
