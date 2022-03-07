@@ -1,4 +1,4 @@
-interface Text {
+interface Props {
   text: Value[];
 }
 //二次元配列の型定義
@@ -15,12 +15,12 @@ interface Value {
   };
 }
 
-export const Text = ({ text }: Text) => {
+function Component(props: Props): (JSX.Element | null)[] | JSX.Element {
   //text=[]でtextは配列オブジェクト！
-  if (!text) {
-    return null;
+  if (!props.text) {
+    return <></>;
   }
-  return text.map((value: Value, i: number) => {
+  return props.text.map((value: Value, i: number) => {
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
@@ -71,4 +71,8 @@ export const Text = ({ text }: Text) => {
       );
     }
   });
-};
+}
+
+export default function Text(props: Props): JSX.Element {
+  return <div>{Component(props)}</div>;
+}
