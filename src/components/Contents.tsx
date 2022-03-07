@@ -1,3 +1,7 @@
+interface Props {
+  text: Text[];
+}
+
 interface Text {
   type: string;
   text: { content: string; link: { url: string } | null };
@@ -13,13 +17,13 @@ interface Text {
   href: string | null;
 }
 
-export const Contents = (text: Text[]) => {
+const Component = (props: Props) => {
   //TypeScript化の時点で引数を({text})から(text:Text[])に変更したのでエラー発生するか確認
   //text=[]でtextは配列オブジェクト！
-  if (!text) {
+  if (!props.text) {
     return null;
   }
-  return text.map((value: Text, i: number) => {
+  return props.text.map((value: Text, i: number) => {
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
@@ -55,3 +59,7 @@ export const Contents = (text: Text[]) => {
     }
   });
 };
+
+export default function Contents(props: Props) {
+  return <div>{Component(props)}</div>;
+}
