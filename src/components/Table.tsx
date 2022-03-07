@@ -1,6 +1,7 @@
-interface Table {
+interface Props {
   table: Value[][];
 }
+
 //二次元配列の型定義
 
 interface Value {
@@ -15,12 +16,12 @@ interface Value {
   };
 }
 
-export const Table = ({ table }: Table) => {
+export const Component = (props: Props) => {
   //table=[{列1},{列2}...]でtableは配列オブジェクト！
-  if (!table) {
+  if (!props.table) {
     return null;
   }
-  return table.map((value, i: number) => {
+  return props.table.map((value, i: number) => {
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
@@ -43,3 +44,6 @@ export const Table = ({ table }: Table) => {
     );
   });
 };
+export default function Table(props: Props) {
+  return <div>{Component(props)}</div>;
+}
