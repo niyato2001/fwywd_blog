@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 interface Props {
   text: Value[];
 }
@@ -74,5 +75,5 @@ function Component(props: Props): (JSX.Element | null)[] | JSX.Element {
 }
 
 export default function Text(props: Props): JSX.Element {
-  return <div>{Component(props)}</div>;
+  return <Fragment>{Component(props)}</Fragment>;
 }
