@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 interface Props {
   table: Value[][];
 }
@@ -45,5 +47,5 @@ export const Component = (props: Props) => {
   });
 };
 export default function Table(props: Props) {
-  return <div>{Component(props)}</div>;
+  return <Fragment>{Component(props)}</Fragment>;
 }
