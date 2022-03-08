@@ -1,10 +1,17 @@
 import { JSDOM } from 'jsdom';
 
-export async function getOgpMeta(link) {
+interface MetaData {
+  url: string | null;
+  title: string | null;
+  description: string | null;
+  image: string | null;
+}
+
+export async function getOgpMeta(link: string) {
   const ogpMeta = await fetch(link)
     .then((res) => res.text())
     .then((text) => {
-      const metaData = {
+      const metaData: MetaData = {
         url: link,
         title: '',
         description: '',
@@ -18,7 +25,7 @@ export async function getOgpMeta(link) {
         if (typeof pro == 'string') {
           if (pro.match('title')) metaData.title = metas[i].getAttribute('content');
           if (pro.match('description')) metaData.description = metas[i].getAttribute('content');
-          if (pro.match('image') && con.match('http'))
+          if (pro.match('image') && con?.match('http'))
             metaData.image = metas[i].getAttribute('content');
           if (pro.match('og:title')) metaData.title = metas[i].getAttribute('content');
           if (pro.match('og:description')) metaData.description = metas[i].getAttribute('content');
@@ -28,7 +35,7 @@ export async function getOgpMeta(link) {
         if (typeof pro == 'string') {
           if (pro.match('title')) metaData.title = metas[i].getAttribute('content');
           if (pro.match('description')) metaData.description = metas[i].getAttribute('content');
-          if (pro.match('image') && con.match('http'))
+          if (pro.match('image') && con?.match('http'))
             metaData.image = metas[i].getAttribute('content');
         }
       }
