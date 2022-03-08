@@ -3,30 +3,6 @@ import SelectButton from '../components/SelectButton';
 import PageList from '../lib/pagenation/PageList';
 import BlogCard from './BlogCard';
 
-interface Title {
-  plain_text: string;
-}
-
-interface Properties {
-  tag: Tag;
-  date: Date;
-  link: Link;
-  image: Image;
-  title: Title;
-}
-
-interface Tag {
-  id: string;
-  type: string;
-  multi_select: MultiSelect[];
-}
-
-interface MultiSelect {
-  id: string;
-  name: string;
-  color: string;
-}
-
 interface Date {
   id: string;
   type: string;
@@ -37,18 +13,6 @@ interface Date2 {
   start: string;
   end?: string | null;
   time_zone?: string | null;
-}
-
-interface Link {
-  id: string;
-  type: string;
-  url: string;
-}
-
-interface Image {
-  id: string;
-  type: string;
-  files: File[];
 }
 
 interface File {
@@ -62,20 +26,79 @@ interface File2 {
   expiry_time: Date;
 }
 
+interface Posts {
+  object: string;
+  id: string;
+  created_time: Date;
+  last_edited_time: Date;
+  created_by: CreatedBy;
+  last_edited_by: LastEditedBy;
+  cover: Cover;
+  icon?: any;
+  parent: Parent;
+  archived: boolean;
+  properties: Properties;
+  url: string;
+}
+
+interface CreatedBy {
+  object: string;
+  id: string;
+}
+interface LastEditedBy {
+  object: string;
+  id: string;
+}
+interface Cover {
+  type: string;
+  external: External;
+}
+interface External {
+  url: string;
+}
+interface Parent {
+  type: string;
+  database_id: string;
+}
+interface Properties {
+  tag: Tag;
+  date: Date;
+  link: Link;
+  image: Image;
+  title: Title;
+}
+interface Tag {
+  id: string;
+  type: string;
+  multi_select: MultiSelect[];
+}
+interface MultiSelect {
+  id: string;
+  name: string;
+  color: string;
+}
+interface Link {
+  id: string;
+  type: string;
+  url: string;
+}
+interface Image {
+  id: string;
+  type: string;
+  files: File[];
+}
 interface Title {
   id: string;
   type: string;
   title: Title2[];
 }
-
 interface Title2 {
   type: string;
   text: Text;
   annotations: Annotations;
   plain_text: string;
-  href?: string | null;
+  href: string | null;
 }
-
 interface Annotations {
   bold: boolean;
   italic: boolean;
@@ -83,11 +106,6 @@ interface Annotations {
   underline: boolean;
   code: boolean;
   color: string;
-}
-
-interface Posts {
-  properties: Properties;
-  id: string;
 }
 
 interface Props {

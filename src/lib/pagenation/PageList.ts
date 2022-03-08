@@ -80,6 +80,29 @@ interface Annotations {
   color: string;
 }
 
+interface Date {
+  id: string;
+  type: string;
+  date: Date2;
+}
+
+interface Date2 {
+  start: string;
+  end?: string | null;
+  time_zone?: string | null;
+}
+
+interface File {
+  name: string;
+  type: string;
+  file: File2;
+}
+
+interface File2 {
+  url: string;
+  expiry_time: Date;
+}
+
 export default function PageList(page: Page[]) {
   const pageNumber: number = Math.floor(page.length / 6);
   const pageList: string[] = [];
