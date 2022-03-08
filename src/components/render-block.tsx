@@ -1,12 +1,108 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { Contents } from './Contents';
+import Contents from './Contents';
 import LinkCard from './LinkCard';
-import { Table } from './Table';
-import { Text } from './Text';
+import Table from './Table';
+import Text from './Text';
 
-export const renderBlock = (block) => {
+interface Block {
+  [key: string]: any;
+  object: string;
+  id: string;
+  created_time: Date;
+  last_edited_time: Date;
+  created_by: CreatedBy;
+  last_edited_by: LastEditedBy;
+  has_children: boolean;
+  archived: boolean;
+  type: string;
+  paragraph: Paragraph;
+  toggle: Toggle;
+  heading_1: Heading1;
+  image: Image;
+  child_database: ChildDatabase;
+  numbered_list_item: NumberedListItem;
+  table: Table;
+  heading_2: Heading2;
+  heading_3: Heading3;
+}
+
+interface CreatedBy {
+  object: string;
+  id: string;
+}
+
+interface LastEditedBy {
+  object: string;
+  id: string;
+}
+
+interface Paragraph {
+  text: Text[];
+}
+
+interface Toggle {
+  text: Text[];
+}
+
+interface Heading1 {
+  text: Text[];
+}
+
+interface Heading2 {
+  text: Text[];
+}
+
+interface Heading3 {
+  text: Text[];
+}
+
+interface NumberedListItem {
+  text: Text[];
+}
+
+interface Table {
+  table_width: number;
+  has_column_header: boolean;
+  has_row_header: boolean;
+}
+
+interface Image {
+  caption: Text[];
+  type: string;
+  file: File;
+}
+
+interface File {
+  url: string;
+  expiry_time: Date;
+}
+
+interface ChildDatabase {
+  title: string;
+}
+
+interface Data {
+  properties: {
+    [key: string]: any;
+  };
+}
+
+interface Text {
+  text: { content: string; link: { url: string } | null };
+  annotations: {
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+  };
+  plain_text: string;
+}
+
+export const renderBlock = (block: Block) => {
   //blockはオブジェクト
   //block={
   //{
@@ -111,7 +207,7 @@ export const renderBlock = (block) => {
           <summary>
             <Text text={value.text} />
           </summary>
-          {value.children?.map((block, i) => (
+          {value.children?.map((block: Block, i: number) => (
             <Fragment key={i}>{renderBlock(block)}</Fragment>
           ))}
         </details>
@@ -120,14 +216,16 @@ export const renderBlock = (block) => {
       return <p>{value.title}</p>;
     case 'image':
       const src = value.type === 'external' ? value.external.url : value.file.url;
-      const caption = value.caption ? value.caption.map((caption) => caption?.plain_text) : '';
+      const caption = value.caption
+        ? value.caption.map((caption: Text) => caption?.plain_text)
+        : '';
       return (
         <figure>
           <div className='relative  h-96 '>
             <Image src={src} alt={caption} layout='fill' objectFit='contain' />
           </div>
           {caption &&
-            caption.map((caption, i) => {
+            caption.map((caption: Text, i: number) => {
               return (
                 <figcaption key={i} className='text-center text-sm text-bg-gray-dark'>
                   {caption}
@@ -139,13 +237,13 @@ export const renderBlock = (block) => {
     case 'video':
       const video_src = value.type === 'external' ? value.external.url : value.file.url;
       const video_caption = value.caption
-        ? value.caption.map((caption) => caption?.plain_text)
+        ? value.caption.map((caption: Text) => caption?.plain_text)
         : '';
       return (
         <figure>
           <video src={video_src} controls muted autoPlay />
           {video_caption &&
-            video_caption.map((caption, i) => {
+            video_caption.map((caption: Text, i: number) => {
               return (
                 <figcaption key={i} className='text-center text-sm text-bg-gray-dark'>
                   {caption}
@@ -163,7 +261,7 @@ export const renderBlock = (block) => {
             <p>
               <Text text={value.text}></Text>
             </p>
-            {value.children?.map((child, i) => (
+            {value.children?.map((child: Block, i: number) => (
               <Fragment key={i}>{renderBlock(child)}</Fragment>
             ))}
           </div>
@@ -193,9 +291,7 @@ export const renderBlock = (block) => {
       if (ogpMeta) {
         return <LinkCard url={url} title={title} description={description} image={image} />;
       }
-      return `❌ Unsupported block (${
-        type === 'unsupported' ? 'unsupported by Notion API' : type
-      })`;
+      return '❌ Unsupported block';
     case 'bookmark':
       const { target } = value;
       if (target) {
@@ -208,13 +304,11 @@ export const renderBlock = (block) => {
           />
         );
       }
-      return `❌ Unsupported block (${
-        type === 'unsupported' ? 'unsupported by Notion API' : type
-      })`;
+      return '❌ Unsupported block';
     case 'table':
       return (
         <table className='w-full table-fixed '>
-          {value.children?.map((block) => (
+          {value.children?.map((block: Block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
             //はじめはこのファイルでtable_rowの分岐をつくらずそのまま実装しようとしていたが、そもそものvalue=block[block.type]なので
             //再度子ブロックごとにrenderBlock()して分岐させないと実装できない！
@@ -236,7 +330,7 @@ export const renderBlock = (block) => {
         <div className='text-center'>
           <p className='font-bold'>【{value.title}】</p>
           <table className='mx-auto my-2 w-2/3 table-fixed border-y-2'>
-            {value.databaseInformation.map((data, i) => {
+            {value.databaseInformation.map((data: Data, i: number) => {
               return (
                 <tr key={i}>
                   <td>

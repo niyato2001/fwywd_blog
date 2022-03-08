@@ -1,9 +1,29 @@
-export const Contents = ({ text }) => {
+interface Props {
+  text: Text[];
+}
+
+interface Text {
+  type: string;
+  text: { content: string; link: { url: string } | null };
+  annotations: {
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+  };
+  plain_text: string;
+  href: string | null;
+}
+
+const Component = (props: Props) => {
+  //TypeScript化の時点で引数を({text})から(text:Text[])に変更したのでエラー発生するか確認
   //text=[]でtextは配列オブジェクト！
-  if (!text) {
+  if (!props.text) {
     return null;
   }
-  return text.map((value, i) => {
+  return props.text.map((value: Text, i: number) => {
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
@@ -39,3 +59,7 @@ export const Contents = ({ text }) => {
     }
   });
 };
+
+export default function Contents(props: Props) {
+  return <div>{Component(props)}</div>;
+}

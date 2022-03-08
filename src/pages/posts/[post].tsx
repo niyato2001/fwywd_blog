@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring';
 import { faTwitter, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GetStaticProps, GetStaticPaths } from 'next';
@@ -5,27 +6,250 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { renderBlock } from '../../components/render-block';
 import { renderBlockContents } from '../../components/render-block-contents';
-
 import { getBlocks } from '../../lib/notion/get-blocks';
 import { getDatabase } from '../../lib/notion/get-database';
 import { getOgpMeta } from '../../lib/notion/get-embedOGP';
 import { getPage } from '../../lib/notion/get-page';
 
-export default function Post({ props_page, blocks, database }) {
+//page_propsの型定義
+interface Page_props {
+  title: string;
+  date: Date;
+  tag: string[];
+}
+
+//blockの型定義
+interface Block {
+  [key: string]: any;
+  object: string;
+  id: string;
+  created_time: Date;
+  last_edited_time: Date;
+  created_by: CreatedBy;
+  last_edited_by: LastEditedBy;
+  has_children: boolean;
+  archived: boolean;
+  type: string;
+  paragraph: Paragraph;
+  toggle: Toggle;
+  heading_1: Heading1;
+  image: Image;
+  child_database: ChildDatabase;
+  numbered_list_item: NumberedListItem;
+  table: Table;
+  heading_2: Heading2;
+  heading_3: Heading3;
+}
+
+interface CreatedBy {
+  object: string;
+  id: string;
+}
+
+interface LastEditedBy {
+  object: string;
+  id: string;
+}
+
+interface Paragraph {
+  text: Text[];
+}
+
+interface Toggle {
+  text: Text[];
+}
+
+interface Heading1 {
+  text: Text[];
+}
+
+interface Heading2 {
+  text: Text[];
+}
+
+interface Heading3 {
+  text: Text[];
+}
+
+interface NumberedListItem {
+  text: Text[];
+}
+
+interface Table {
+  table_width: number;
+  has_column_header: boolean;
+  has_row_header: boolean;
+}
+
+interface Image {
+  caption: Text[];
+  type: string;
+  file: File;
+}
+
+interface File {
+  url: string;
+  expiry_time: Date;
+}
+
+interface ChildDatabase {
+  title: string;
+}
+
+interface Data {
+  properties: {
+    [key: string]: any;
+  };
+}
+
+interface Text2 {
+  content: string;
+  link: { url: string } | null;
+}
+
+interface Text {
+  text: Text2;
+  annotations: Annotations;
+  plain_text: string;
+}
+
+//databaseの型定義
+interface Page {
+  object: string;
+  id: string;
+  created_time: Date3;
+  last_edited_time: Date3;
+  created_by: CreatedBy;
+  last_edited_by: LastEditedBy;
+  cover: Cover;
+  icon?: any;
+  parent: Parent;
+  archived: boolean;
+  properties: Properties;
+  url: string;
+}
+
+interface CreatedBy {
+  object: string;
+  id: string;
+}
+interface LastEditedBy {
+  object: string;
+  id: string;
+}
+interface Cover {
+  type: string;
+  external: External;
+}
+interface External {
+  url: string;
+}
+interface Parent {
+  type: string;
+  database_id: string;
+}
+interface Properties {
+  tag: Tag;
+  date: Date;
+  link: Link;
+  image: Image;
+  title: Title;
+}
+interface Tag {
+  id: string;
+  type: string;
+  multi_select: MultiSelect[];
+}
+interface MultiSelect {
+  id: string;
+  name: string;
+  color: string;
+}
+interface Link {
+  id: string;
+  type: string;
+  url: string;
+}
+interface Image {
+  id: string;
+  type: string;
+  files: File[];
+}
+interface Title {
+  id: string;
+  type: string;
+  title: Title2[];
+}
+interface Title2 {
+  type: string;
+  text: Text2;
+  annotations: Annotations;
+  plain_text: string;
+  href: string | null;
+}
+interface Annotations {
+  bold: boolean;
+  italic: boolean;
+  strikethrough: boolean;
+  underline: boolean;
+  code: boolean;
+  color: string;
+}
+
+interface Date3 {
+  id: string;
+  type: string;
+  date: Date2;
+}
+
+interface Date2 {
+  start: string;
+  end?: string | null;
+  time_zone?: string | null;
+}
+
+interface File {
+  name: string;
+  type: string;
+  file: File2;
+}
+
+interface File2 {
+  url: string;
+  expiry_time: Date;
+}
+
+interface Post {
+  props_page: Page_props;
+  blocks: Block[];
+  database: Page[];
+}
+
+//child_database用の型定義
+interface ChildData {
+  properties: Properties2;
+}
+interface Properties2 {
+  [key: string]: Date3;
+}
+
+export default function Post({ props_page, blocks, database }: Post) {
   const router = useRouter();
+  const { post }: any = router.query;
+  //とりあえずanyにしていまっている。useRouterは初回レンダリング時はundefinedになってしまうため。
   const pageIds = database.map((data) => data.id);
   const titles = database.map((data) => data.properties.title.title[0].text.content);
-  const number = pageIds.indexOf(router.query.post);
+  const number = pageIds.indexOf(post);
   const hrefBefore: string = `/posts/${pageIds[number - 1]}`;
-  const handleClickBefore = (e) => {
+  const handleClickBefore = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     router.push(hrefBefore);
   };
   const hrefAfter: string = `/posts/${pageIds[number + 1]}`;
-  const handleClickAfter = (e) => {
+  const handleClickAfter = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     router.push(hrefAfter);
   };
@@ -54,7 +278,7 @@ export default function Post({ props_page, blocks, database }) {
           <div className='flex items-center justify-items-start gap-4 py-10'>
             <div className='text-bg-gray-dark'>{props_page.date}</div>
             <div className='flex gap-2 text-bg-gray-dark'>
-              {props_page.tag.map((tag, i) => {
+              {props_page.tag.map((tag, i: number) => {
                 return (
                   <div
                     key={i}
@@ -130,8 +354,12 @@ export default function Post({ props_page, blocks, database }) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const post = context.params.post;
+interface Params extends ParsedUrlQuery {
+  post: string;
+}
+
+export const getStaticProps: GetStaticProps<Post, Params> = async (context) => {
+  const { post } = context.params as Params;
   //postを{post}としていたために、オブジェクト扱いになってしまっていた。そのため、getPageの引数に入れることができなかった。
   //結局getStaticPropsは名前の通り、propsを作り出してgetStaticPropsがある同ページ内でそのpropsを受け取ることができるようにするもの！
   //この場合のpostはpage_idとなっている。
@@ -148,7 +376,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const props_page = {
     title: page.properties.title.title[0].plain_text,
     date: page.properties.date.date.start,
-    tag: page.properties.tag.multi_select.map((tag) => {
+    tag: page.properties.tag.multi_select.map((tag: { name: string }) => {
       return tag.name;
     }),
   };
@@ -238,7 +466,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       }),
   );
 
-  childDatabaseId[0]?.databaseInformation?.sort(function (a, b) {
+  childDatabaseId[0]?.databaseInformation?.sort(function (a: ChildData, b: ChildData) {
     return a.properties['日付'].date.start < b.properties['日付'].date.start ? -1 : 1;
   });
   //apiでのsortは難しかったのでjavascriptのなかでsortしてdatabaseInformationを日付順にsort
@@ -268,7 +496,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const database = await getDatabase(databaseId);
   //databaseはresponse.resultsと同様のオブジェクトで配列
   //getStaticPathsは名前の通りpathsを作り出す。pathsはcontextとしてgetStaticPropsで受け取ることが可能。
-  const paths = database.map((post) => ({
+  const paths = database.map((post: Page) => ({
     params: { post: post.id.toString() },
   }));
   return {

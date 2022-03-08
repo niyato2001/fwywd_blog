@@ -1,9 +1,27 @@
-export const Text = ({ text }) => {
+import { Fragment } from 'react';
+interface Props {
+  text: Value[];
+}
+//二次元配列の型定義
+
+interface Value {
+  text: { content: string; link: { url: string } | null };
+  annotations: {
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+  };
+}
+
+function Component(props: Props): (JSX.Element | null)[] | JSX.Element {
   //text=[]でtextは配列オブジェクト！
-  if (!text) {
-    return null;
+  if (!props.text) {
+    return <></>;
   }
-  return text.map((value, i) => {
+  return props.text.map((value: Value, i: number) => {
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
@@ -54,4 +72,8 @@ export const Text = ({ text }) => {
       );
     }
   });
-};
+}
+
+export default function Text(props: Props): JSX.Element {
+  return <Fragment>{Component(props)}</Fragment>;
+}

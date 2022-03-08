@@ -1,6 +1,6 @@
 import { notion } from './client';
 
-export const getBlocks = async (blockId) => {
+export const getBlocks = async (blockId: string) => {
   //Notion APIではblockIdはpageIdと同じ
   let results = [];
   let response = await notion.blocks.children.list({
