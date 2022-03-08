@@ -238,7 +238,9 @@ interface Properties2 {
 
 export default function Post({ props_page, blocks, database }: Post) {
   const router = useRouter();
-  const { post }: any = router.query;
+  const post: string = router.asPath.substring(7);
+  // '/posts/'を省いてpostでpageIdを表現することにした
+  console.log(post);
   //とりあえずanyにしていまっている。useRouterは初回レンダリング時はundefinedになってしまうため。
   const pageIds = database.map((data) => data.id);
   const titles = database.map((data) => data.properties.title.title[0].text.content);
