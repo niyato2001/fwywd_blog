@@ -28,7 +28,7 @@ module.exports = {
       'files.readme.io',
       'cdn.sstatic.net',
       'maku.blog',
-      '',
+      'developer.mozilla.org',
       '',
       '',
       '',
