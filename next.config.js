@@ -32,6 +32,8 @@ module.exports = {
       'shinobiworks.com',
       'samuelkraft.com',
       '',
+      '',
+      '',
     ],
   },
   reactStrictMode: true,
