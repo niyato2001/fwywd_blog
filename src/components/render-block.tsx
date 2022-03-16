@@ -274,6 +274,9 @@ export const renderBlock = (block: Block) => {
           <p className='text-white'>
             <Text text={value.text} />
           </p>
+          {value.children?.map((child: Block, i: number) => (
+            <Fragment key={i}>{renderBlock(child)}</Fragment>
+          ))}
         </div>
       );
     case 'code':
