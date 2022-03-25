@@ -485,7 +485,7 @@ export const getStaticProps: GetStaticProps<Post, Params> = async (context) => {
     //embedがtrueのものは、embed.ogpMetaが加えられた状態でfalseのものはそのままreturnされる。
   });
 
-  console.log(childDatabaseId[0]);
+  console.log(blocksWithDatabaseId);
   return {
     props: { props_page, blocks: blocksWithDatabaseId, database },
     //pageとデータベースの2つの情報を入れるためprops→props:{props_page,props_blocks}に変更

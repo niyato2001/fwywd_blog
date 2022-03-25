@@ -64,8 +64,14 @@ function Component(props: Props): (JSX.Element | null)[] | JSX.Element {
             <a href={text.link.url} className='text-blue-500 underline'>
               {text.content}
             </a>
-          ) : (
+          ) : text.content.search('\n') === -1 ? (
+            //text.contentに'\n'＝改行がなければ
             text.content
+          ) : (
+            text.content.split('\n')?.map((item: string, i: number) => {
+              return <p key={i}>{item}</p>;
+            })
+            //text.contentに'\n'＝改行があればtext.contentを行ごとの配列に変換しそれぞれを<p>タグで出力する
           )}
           {/*text.linkがtrueならばaタグ、そうでなければ単純にtext.contentのspanタグ*/}
         </span>

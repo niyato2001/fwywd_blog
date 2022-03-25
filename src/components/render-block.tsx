@@ -267,6 +267,18 @@ export const renderBlock = (block: Block) => {
           </div>
         </div>
       );
+    case 'callout':
+      return (
+        <div className='flex items-center gap-2 bg-font-black px-2 py-4'>
+          <p className=''>{value.icon?.emoji}</p>
+          <p className='text-white'>
+            <Text text={value.text} />
+          </p>
+          {value.children?.map((child: Block, i: number) => (
+            <Fragment key={i}>{renderBlock(child)}</Fragment>
+          ))}
+        </div>
+      );
     case 'code':
       const language: string = value.language;
       //group hoverやinvisibleを選択することを検討（code blockをhover時にプログラミング言語を表示させたい！）
